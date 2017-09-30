@@ -6,7 +6,7 @@ a) Vim insertion mode - all keys work like usual in CudaText, only Esc goes to c
 b) Vim replace mide- like insertion mode, but "insert/overwrite mode" is "overwrite"
 c) Vim command mode has supported keys:
 
-  hjkl - caret movement
+  h, j, k, l - caret movement
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
   b - go to previous word (same note)
   e - go to end of word (or next word)
@@ -18,6 +18,8 @@ c) Vim command mode has supported keys:
   R - enter replace mode
   o - creates empty line below current line (and goes into insertion mode on new line)
   O - creates empty line above current line (and goes into insertion mode on new line)
+  gg - go to text begin
+  G - go to line number (if number entered before), or go to text end (if none)
 
 
 author: Alexey (CudaText)

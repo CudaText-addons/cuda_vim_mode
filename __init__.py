@@ -11,6 +11,8 @@ class Command:
     active = False
     insert = False
     replace_char = False
+    count_g = 0
+    number = ''
 
 
     def toggle_active(self):
@@ -46,6 +48,35 @@ class Command:
         if state in ['', 's']:
             if self.replace_char:
                 return
+
+            if ord('0')<=key<=ord('9'):
+                self.number += chr(key)
+                msg('number: '+self.number)
+                return False
+
+            if key==ord('G') and state=='':
+                if self.count_g==0:
+                    self.count_g += 1
+                    msg('go to?')
+                else:
+                    self.count_g = 0
+                    ed.cmd(cc.cCommand_GotoTextBegin)
+                    msg('go to text begin')
+                return False
+            else:
+                self.count_g = 0
+
+            if key==ord('G') and state=='s':
+                if self.number=='':
+                    ed.cmd(cc.cCommand_GotoTextEnd)
+                    msg('go to text end')
+                else:
+                    x0, y0, x1, y1 = ed.get_carets()[0]
+                    ed.set_caret(x0, int(self.number)-1)
+                    ed.cmd(cc.cCommand_ScrollToCaretTop)
+                    msg('go to line '+self.number)
+                    self.number = ''
+                return False
 
             if key==ord('H') and state=='':
                 ed.cmd(cc.cCommand_KeyLeft)
