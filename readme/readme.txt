@@ -16,6 +16,8 @@ c) Vim command mode has supported keys:
   X - delete char left (like Backspace key)
   r - replace current char with next typed char, return to command mode
   R - enter replace mode
+  o - creates empty line below current line (and goes into insertion mode on new line)
+  O - creates empty line above current line (and goes into insertion mode on new line)
 
 
 author: Alexey (CudaText)

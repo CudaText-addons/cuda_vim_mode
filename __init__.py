@@ -114,6 +114,18 @@ class Command:
                 msg('replace mode for current line')
                 return False
 
+            if key==ord('O') and state=='s':
+                ed.cmd(cc.cCommand_TextInsertEmptyAbove)
+                self.insert = True
+                msg('insert line above, insertion mode')
+                return False
+
+            if key==ord('O') and state=='':
+                ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+                self.insert = True
+                msg('insert line below, insertion mode')
+                return False
+
 
     def on_key_up(self, ed_self, key, state):
         if not self.active: return
