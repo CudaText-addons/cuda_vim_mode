@@ -9,13 +9,12 @@ def msg(s):
 
 class Command:
     active = False
-    ins = False
-    replace = False
+    insert = False
     replace_char = False
 
 
     def toggle_active(self):
-        self.ins = False
+        self.insert = False
         self.active = not self.active
         if self.active:
             msg('plugin activated')
@@ -27,8 +26,9 @@ class Command:
         if not self.active: return
 
         if key==ck.VK_ESCAPE:
-            if self.ins:
-                self.ins = False
+            if self.insert:
+                self.insert = False
+                ed.set_prop(PROP_INSERT, True)
                 msg('command mode')
                 return False
             else:
@@ -39,7 +39,7 @@ class Command:
             msg('arrow key')
             return
 
-        if self.ins:
+        if self.insert:
             msg('insertion mode')
             return
 
@@ -84,12 +84,12 @@ class Command:
 
             if key==ord('A') and state=='':
                 ed.cmd(cc.cCommand_KeyRight)
-                self.ins = True
+                self.insert = True
                 msg('insertion mode, after current char')
                 return False
 
             if key==ord('I') and state=='':
-                self.ins = True
+                self.insert = True
                 msg('insertion mode, at current char')
                 return False
 
@@ -108,6 +108,12 @@ class Command:
                 msg('replace char to')
                 return False
 
+            if key==ord('R') and state=='s':
+                self.insert = True
+                ed.set_prop(PROP_INSERT, False)
+                msg('replace mode for current line')
+                return False
+
 
     def on_key_up(self, ed_self, key, state):
         if not self.active: return
@@ -115,6 +121,9 @@ class Command:
 
     def on_insert(self, ed_self, text):
         if not self.active:
+            return
+
+        if self.insert:
             return
 
         if not self.replace_char:
