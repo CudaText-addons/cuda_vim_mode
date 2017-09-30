@@ -71,10 +71,17 @@ class Command:
                     ed.cmd(cc.cCommand_GotoTextEnd)
                     msg('go to text end')
                 else:
-                    x0, y0, x1, y1 = ed.get_carets()[0]
-                    ed.set_caret(x0, int(self.number)-1)
-                    ed.cmd(cc.cCommand_ScrollToCaretTop)
-                    msg('go to line '+self.number)
+                    try:
+                        index = int(self.number)-1
+                    except:
+                        index = -1
+                    if 0<=index<ed.get_line_count():
+                        x0, y0, x1, y1 = ed.get_carets()[0]
+                        ed.set_caret(x0, index)
+                        ed.cmd(cc.cCommand_ScrollToCaretTop)
+                        msg('go to line '+self.number)
+                    else:
+                        msg('incorrect line number: '+self.number)
                     self.number = ''
                 return False
 
