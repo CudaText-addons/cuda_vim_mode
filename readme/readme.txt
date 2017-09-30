@@ -8,11 +8,12 @@ b) supported keys in Vim command mode:
   hjkl - caret movement
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
   b - go to previous word (same note)
-  e - go to end of word
-  a - enter Insertion mode after moving caret right
-  i - enter Insertion mode at current pos
+  e - go to end of word (or next word)
+  a - enter insertion mode after moving caret right
+  i - enter insertion mode at current pos
   x - delete char right (like Delete key)
   X - delete char left (like Backspace key)
+  r - replace current char with next typed char, return to command mode
 
 
 author: Alexey (CudaText)

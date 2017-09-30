@@ -1,5 +1,6 @@
 from cudatext import *
 import cudatext_cmd as cc
+import cudatext_keys as ck
 from .word_proc import *
 
 def msg(s):
@@ -9,6 +10,9 @@ def msg(s):
 class Command:
     active = False
     ins = False
+    replace = False
+    replace_char = False
+
 
     def toggle_active(self):
         self.ins = False
@@ -22,8 +26,7 @@ class Command:
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
-        #Esc
-        if key==27:
+        if key==ck.VK_ESCAPE:
             if self.ins:
                 self.ins = False
                 msg('command mode')
@@ -31,11 +34,19 @@ class Command:
             else:
                 return
 
+        if key in [ck.VK_LEFT, ck.VK_RIGHT, ck.VK_UP, ck.VK_DOWN,
+                    ck.VK_PAGEUP, ck.VK_PAGEDOWN]:
+            msg('arrow key')
+            return
+
         if self.ins:
             msg('insertion mode')
             return
 
         if state in ['', 's']:
+            if self.replace_char:
+                return
+
             if key==ord('H') and state=='':
                 ed.cmd(cc.cCommand_KeyLeft)
                 msg('left')
@@ -92,11 +103,29 @@ class Command:
                 msg('delete char left')
                 return False
 
-            #block letters
-            if ord('A')<=key<=ord('Z'):
-                msg('key not handled')
+            if key==ord('R') and state=='':
+                self.replace_char = True
+                msg('replace char to')
                 return False
 
 
     def on_key_up(self, ed_self, key, state):
         if not self.active: return
+
+
+    def on_insert(self, ed_self, text):
+        if not self.active:
+            return
+
+        if not self.replace_char:
+            msg('key not handled')
+            return False
+
+        if self.replace_char:
+            self.replace_char = False
+
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            ed.replace(x0, y0, x0+len(text), y0, text)
+
+            msg('replace char to: '+text)
+            return False

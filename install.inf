@@ -7,7 +7,7 @@ homepage=
 
 [item1]
 section=events
-events=on_key
+events=on_key,on_insert
 
 [item2]
 section=commands
