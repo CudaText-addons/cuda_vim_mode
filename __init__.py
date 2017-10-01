@@ -10,6 +10,8 @@ def msg(s):
 class Command:
     active = False
     insert = False
+    visual = False
+    visual_start = None
     replace_char = False
     prefix_g = False
     prefix_d = False
@@ -20,6 +22,8 @@ class Command:
     def update_caret(self):
         if self.insert or not self.active:
             value = self.caret_normal
+        elif self.visual:
+            value = 25
         else:
             value = 26
         ed.set_prop(PROP_CARET_SHAPE, value)
@@ -44,6 +48,12 @@ class Command:
                 self.insert = False
                 self.update_caret()
                 ed.set_prop(PROP_INSERT, True)
+                msg('command mode')
+                return False
+            elif self.visual:
+                self.visual = False
+                self.visual_start = None
+                self.update_caret()
                 msg('command mode')
                 return False
             else:
@@ -226,8 +236,13 @@ class Command:
                 msg('delete?')
                 return False
 
-    def on_key_up(self, ed_self, key, state):
-        if not self.active: return
+            if key==ord('V') and state=='':
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                self.visual = True
+                self.visual_start = (x0, y0)
+                self.update_caret()
+                msg('visual mode')
+                return False
 
 
     def on_insert(self, ed_self, text):
