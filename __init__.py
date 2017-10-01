@@ -14,15 +14,26 @@ class Command:
     prefix_g = False
     prefix_d = False
     number = ''
+    caret_normal = 2
+
+
+    def update_caret(self):
+        if self.insert or not self.active:
+            value = self.caret_normal
+        else:
+            value = 26
+        ed.set_prop(PROP_CARET_SHAPE, value)
 
 
     def toggle_active(self):
         self.insert = False
         self.active = not self.active
         if self.active:
+            self.caret_normal = ed.get_prop(PROP_CARET_SHAPE)
             msg('plugin activated')
         else:
             msg('plugin deactivated')
+        self.update_caret()
 
 
     def on_key(self, ed_self, key, state):
@@ -31,6 +42,7 @@ class Command:
         if key==ck.VK_ESCAPE:
             if self.insert:
                 self.insert = False
+                self.update_caret()
                 ed.set_prop(PROP_INSERT, True)
                 msg('command mode')
                 return False
@@ -155,11 +167,13 @@ class Command:
             if key==ord('A') and state=='':
                 ed.cmd(cc.cCommand_KeyRight)
                 self.insert = True
+                self.update_caret()
                 msg('insertion mode, after current char')
                 return False
 
             if key==ord('I') and state=='':
                 self.insert = True
+                self.update_caret()
                 msg('insertion mode, at current char')
                 return False
 
@@ -180,6 +194,7 @@ class Command:
 
             if key==ord('R') and state=='s':
                 self.insert = True
+                self.update_caret()
                 ed.set_prop(PROP_INSERT, False)
                 msg('replace mode for current line')
                 return False
@@ -187,12 +202,14 @@ class Command:
             if key==ord('O') and state=='s':
                 ed.cmd(cc.cCommand_TextInsertEmptyAbove)
                 self.insert = True
+                self.update_caret()
                 msg('insert line above, insertion mode')
                 return False
 
             if key==ord('O') and state=='':
                 ed.cmd(cc.cCommand_TextInsertEmptyBelow)
                 self.insert = True
+                self.update_caret()
                 msg('insert line below, insertion mode')
                 return False
 
