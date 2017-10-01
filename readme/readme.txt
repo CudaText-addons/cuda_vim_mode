@@ -13,9 +13,12 @@ d) Vim command mode supported keys:
   e - go to end of word (or next word)
 
   a - enter insertion mode, after moving caret right
+  A - enter insertion mode, at line end
   i - enter insertion mode, at current pos
-  R - enter replace mode
+  I - enter insertion mode, at first non-space char in line
+  
   r - replace current char with next typed char, return to command mode
+  R - enter replace mode
 
   o - creates empty line below, goes into insertion mode on new line
   O - creates empty line above, goes into insertion mode on new line
