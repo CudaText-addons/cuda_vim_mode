@@ -101,7 +101,11 @@ class Command:
                         x0 = len(ed.get_text_line(y0))
 
                 ed.set_caret(x0, y0, xx, yy)
-                msg('visual selection')
+
+                s = 'visual selection'
+                if self.visual_lines:
+                    s += ', by lines'
+                msg(s)
                 return False
             else:
                 msg('movement key')
@@ -313,7 +317,11 @@ class Command:
             self.visual_lines = text=='V'
             self.visual_start = (x0, y0)
             self.update_caret()
-            msg('visual mode')
+            s = 'visual mode'
+            if self.visual_lines:
+                s += ', by lines'
+                ed.set_caret(0, y0, len(ed.get_text_line(y0)), y0)
+            msg(s)
             return False
 
 
