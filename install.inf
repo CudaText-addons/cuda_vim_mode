@@ -4,6 +4,7 @@ desc=Allows to use Vim key bindings
 type=cudatext-plugin
 subdir=cuda_vim_mode
 homepage=https://github.com/CudaText-addons/cuda_vim_mode
+api=1.0.200
 
 [item1]
 section=events
