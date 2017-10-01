@@ -65,6 +65,11 @@ class Command:
                 msg('Esc')
                 return
 
+        if key==ck.VK_BACKSPACE:
+            ed.cmd(cc.cCommand_KeyLeft)
+            msg('move left')
+            return False
+
         if key in [ck.VK_LEFT, ck.VK_RIGHT, ck.VK_UP, ck.VK_DOWN,
                    ck.VK_PAGEUP, ck.VK_PAGEDOWN,
                    ck.VK_HOME, ck.VK_END]:
@@ -386,6 +391,10 @@ class Command:
             msg('go to column '+str(index+1))
             return False
 
+        if text==' ':
+            ed.cmd(cc.cCommand_KeyRight)
+            msg('move right')
+            return False
 
         #block all text in command mode
         msg('key not handled')

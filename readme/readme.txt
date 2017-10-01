@@ -44,6 +44,9 @@ d) Vim command mode supported keys:
   v - enter visual mode
   V - enter visual mode, but select entire lines
   
+  Space - move right
+  Backspace - move left
+  
 
 author: Alexey (CudaText)
 suggestions by @mangobait
