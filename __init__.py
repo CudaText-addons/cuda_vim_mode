@@ -108,185 +108,11 @@ class Command:
                 return
 
         if self.insert:
-            msg('insertion mode')
-            return
-
-        if state in ['', 's']:
-            if self.replace_char:
-                return
-
-            if ord('0')<=key<=ord('9'):
-                self.number += chr(key)
-                msg('number: '+self.number)
-                return False
-
-            if key==ord('G') and state=='':
-                if not self.prefix_g:
-                    self.prefix_g = True
-                    msg('go to?')
-                else:
-                    self.prefix_g = False
-                    ed.cmd(cc.cCommand_GotoTextBegin)
-                    msg('go to text begin')
-                return False
+            if ed.get_prop(PROP_INSERT):
+                msg('insertion mode')
             else:
-                self.prefix_g = False
-
-            if key==ord('G') and state=='s':
-                if self.number=='':
-                    ed.cmd(cc.cCommand_GotoTextEnd)
-                    msg('go to text end')
-                else:
-                    try:
-                        index = int(self.number)-1
-                    except:
-                        index = -1
-                    if 0<=index<ed.get_line_count():
-                        x0, y0, x1, y1 = ed.get_carets()[0]
-                        ed.set_caret(x0, index)
-                        ed.cmd(cc.cCommand_ScrollToCaretTop)
-                        msg('go to line '+self.number)
-                    else:
-                        msg('incorrect line number: '+self.number)
-                    self.number = ''
-                return False
-
-
-            if self.prefix_d:
-                if ord('A')<=key<=ord('Z'):
-                    self.prefix_d = False
-
-                if key==ord('D') and state=='':
-                    ed.cmd(cc.cCommand_TextDeleteLine)
-                    msg('delete line')
-                    return False
-
-                if key==ord('W') and state=='':
-                    ed.cmd(cc.cCommand_TextDeleteWordNext)
-                    msg('delete to word end')
-                    return False
-
-                if key==ord('E') and state=='':
-                    ed.cmd(cc.cCommand_TextDeleteWordNext)
-                    msg('delete to word end')
-                    return False
-
-                if key==ord('B') and state=='':
-                    ed.cmd(cc.cCommand_TextDeleteWordPrev)
-                    msg('delete to word begin')
-                    return False
-
-                if key==ord('L') and state=='s':
-                    ed.cmd(cc.cCommand_TextDeleteToTextEnd)
-                    msg('delete to text end')
-                    return False
-
-
-            if key==ord('H') and state=='':
-                ed.cmd(cc.cCommand_KeyLeft)
-                msg('left')
-                return False
-
-            if key==ord('J') and state=='':
-                ed.cmd(cc.cCommand_KeyDown)
-                msg('down')
-                return False
-
-            if key==ord('K') and state=='':
-                ed.cmd(cc.cCommand_KeyUp)
-                msg('up')
-                return False
-
-            if key==ord('L') and state=='':
-                ed.cmd(cc.cCommand_KeyRight)
-                msg('right')
-                return False
-
-            if key==ord('B'):
-                # and state=='':
-                ed.cmd(cc.cCommand_GotoWordPrev)
-                msg('go to prev word')
-                return False
-
-            if key==ord('W'):
-                # and state=='':
-                ed.cmd(cc.cCommand_GotoWordNext)
-                msg('go to next word')
-                return False
-
-            if key==ord('E'):
-                # and state=='':
-                goto_word_end()
-                msg('go to word end')
-                return False
-
-            if key==ord('A') and state=='':
-                ed.cmd(cc.cCommand_KeyRight)
-                self.insert = True
-                self.update_caret()
-                msg('insertion mode, after current char')
-                return False
-
-            if key==ord('I') and state=='':
-                self.insert = True
-                self.update_caret()
-                msg('insertion mode, at current char')
-                return False
-
-            if key==ord('X') and state=='':
-                ed.cmd(cc.cCommand_KeyDelete)
-                msg('delete char')
-                return False
-
-            if key==ord('X') and state=='s':
-                ed.cmd(cc.cCommand_KeyBackspace)
-                msg('delete char left')
-                return False
-
-            if key==ord('R') and state=='':
-                self.replace_char = True
-                msg('replace char to')
-                return False
-
-            if key==ord('R') and state=='s':
-                self.insert = True
-                self.update_caret()
-                ed.set_prop(PROP_INSERT, False)
-                msg('replace mode for current line')
-                return False
-
-            if key==ord('O') and state=='s':
-                ed.cmd(cc.cCommand_TextInsertEmptyAbove)
-                self.insert = True
-                self.update_caret()
-                msg('insert line above, insertion mode')
-                return False
-
-            if key==ord('O') and state=='':
-                ed.cmd(cc.cCommand_TextInsertEmptyBelow)
-                self.insert = True
-                self.update_caret()
-                msg('insert line below, insertion mode')
-                return False
-
-            if key==ord('D') and state=='s':
-                ed.cmd(cc.cCommand_TextDeleteToLineEnd)
-                msg('delete to end of line')
-                return False
-
-            if key==ord('D') and state=='':
-                self.prefix_d = True
-                msg('delete?')
-                return False
-
-            if key==ord('V'):
-                x0, y0, x1, y1 = ed.get_carets()[0]
-                self.visual = True
-                self.visual_lines = state=='s'
-                self.visual_start = (x0, y0)
-                self.update_caret()
-                msg('visual mode')
-                return False
+                msg('replace mode')
+            return
 
 
     def on_insert(self, ed_self, text):
@@ -306,18 +132,188 @@ class Command:
             return False
 
 
-        if text=='/' and self.prefix_d:
-            self.prefix_d = False
-            s = dlg_input('Delete to text:', '')
-            if s:
-                x0, y0, x1, y1 = ed.get_carets()[0]
-                res = find_text_pos(x0, y0, s)
-                if res:
-                    x1, y1 = res
-                    ed.delete(x0, y0, x1, y1)
-                    msg('delete to text: '+s)
+        if text in string.digits:
+            self.number += text
+            msg('number: '+self.number)
+            return False
+
+        if text=='g':
+            if not self.prefix_g:
+                self.prefix_g = True
+                msg('go to?')
+            else:
+                self.prefix_g = False
+                ed.cmd(cc.cCommand_GotoTextBegin)
+                msg('go to text begin')
+            return False
+        else:
+            self.prefix_g = False
+
+        if text=='G':
+            if self.number=='':
+                ed.cmd(cc.cCommand_GotoTextEnd)
+                msg('go to text end')
+            else:
+                try:
+                    index = int(self.number)-1
+                except:
+                    index = -1
+                if 0<=index<ed.get_line_count():
+                    x0, y0, x1, y1 = ed.get_carets()[0]
+                    ed.set_caret(x0, index)
+                    ed.cmd(cc.cCommand_ScrollToCaretTop)
+                    msg('go to line '+self.number)
                 else:
-                    msg('not found: '+s)
+                    msg('incorrect line number: '+self.number)
+                self.number = ''
+            return False
+
+
+        if self.prefix_d:
+            self.prefix_d = False
+
+            if text=='d':
+                ed.cmd(cc.cCommand_TextDeleteLine)
+                msg('delete line')
+                return False
+
+            if text=='w':
+                ed.cmd(cc.cCommand_TextDeleteWordNext)
+                msg('delete to word end')
+                return False
+
+            if text=='e':
+                ed.cmd(cc.cCommand_TextDeleteWordNext)
+                msg('delete to word end')
+                return False
+
+            if text=='b':
+                ed.cmd(cc.cCommand_TextDeleteWordPrev)
+                msg('delete to word begin')
+                return False
+
+            if text=='L':
+                ed.cmd(cc.cCommand_TextDeleteToTextEnd)
+                msg('delete to text end')
+                return False
+
+            if text=='/':
+                s = dlg_input('Delete to text:', '')
+                if s:
+                    x0, y0, x1, y1 = ed.get_carets()[0]
+                    res = find_text_pos(x0, y0, s)
+                    if res:
+                        x1, y1 = res
+                        ed.delete(x0, y0, x1, y1)
+                        msg('delete to text: '+s)
+                    else:
+                        msg('not found: '+s)
+                else:
+                    msg('Esc')
+                return False
+
+
+        if text=='h':
+            ed.cmd(cc.cCommand_KeyLeft)
+            msg('left')
+            return False
+
+        if text=='j':
+            ed.cmd(cc.cCommand_KeyDown)
+            msg('down')
+            return False
+
+        if text=='k':
+            ed.cmd(cc.cCommand_KeyUp)
+            msg('up')
+            return False
+
+        if text=='l':
+            ed.cmd(cc.cCommand_KeyRight)
+            msg('right')
+            return False
+
+        if text in ['b', 'B']:
+            ed.cmd(cc.cCommand_GotoWordPrev)
+            msg('go to prev word')
+            return False
+
+        if text in ['w', 'W']:
+            ed.cmd(cc.cCommand_GotoWordNext)
+            msg('go to next word')
+            return False
+
+        if text in ['e', 'E']:
+            goto_word_end()
+            msg('go to word end')
+            return False
+
+        if text=='a':
+            ed.cmd(cc.cCommand_KeyRight)
+            self.insert = True
+            self.update_caret()
+            msg('insertion mode, after current char')
+            return False
+
+        if text=='i':
+            self.insert = True
+            self.update_caret()
+            msg('insertion mode, at current char')
+            return False
+
+        if text=='x':
+            ed.cmd(cc.cCommand_KeyDelete)
+            msg('delete char')
+            return False
+
+        if text=='X':
+            ed.cmd(cc.cCommand_KeyBackspace)
+            msg('delete char left')
+            return False
+
+        if text=='r':
+            self.replace_char = True
+            msg('replace char to')
+            return False
+
+        if text=='R':
+            self.insert = True
+            self.update_caret()
+            ed.set_prop(PROP_INSERT, False)
+            msg('replace mode for current line')
+            return False
+
+        if text=='O':
+            ed.cmd(cc.cCommand_TextInsertEmptyAbove)
+            self.insert = True
+            self.update_caret()
+            msg('insert line above, insertion mode')
+            return False
+
+        if text=='o':
+            ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+            self.insert = True
+            self.update_caret()
+            msg('insert line below, insertion mode')
+            return False
+
+        if text=='D':
+            ed.cmd(cc.cCommand_TextDeleteToLineEnd)
+            msg('delete to end of line')
+            return False
+
+        if text=='d':
+            self.prefix_d = True
+            msg('delete?')
+            return False
+
+        if text in ['v', 'V']:
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            self.visual = True
+            self.visual_lines = text=='V'
+            self.visual_start = (x0, y0)
+            self.update_caret()
+            msg('visual mode')
             return False
 
 
@@ -343,7 +339,6 @@ class Command:
             return False
 
 
-        if not self.replace_char:
-            msg('key not handled')
-            return False
-
+        #block all text in command mode
+        msg('key not handled')
+        return False
