@@ -12,6 +12,7 @@ class Command:
     insert = False
     replace_char = False
     prefix_g = False
+    prefix_d = False
     number = ''
 
 
@@ -84,6 +85,37 @@ class Command:
                         msg('incorrect line number: '+self.number)
                     self.number = ''
                 return False
+
+
+            if self.prefix_d:
+                if ord('A')<=key<=ord('Z'):
+                    self.prefix_d = False
+
+                if key==ord('D') and state=='':
+                    ed.cmd(cc.cCommand_TextDeleteLine)
+                    msg('delete line')
+                    return False
+
+                if key==ord('W') and state=='':
+                    ed.cmd(cc.cCommand_TextDeleteWordNext)
+                    msg('delete to word end')
+                    return False
+
+                if key==ord('E') and state=='':
+                    ed.cmd(cc.cCommand_TextDeleteWordNext)
+                    msg('delete to word end')
+                    return False
+
+                if key==ord('B') and state=='':
+                    ed.cmd(cc.cCommand_TextDeleteWordPrev)
+                    msg('delete to word begin')
+                    return False
+
+                if key==ord('L') and state=='s':
+                    ed.cmd(cc.cCommand_TextDeleteToTextEnd)
+                    msg('delete to text end')
+                    return False
+
 
             if key==ord('H') and state=='':
                 ed.cmd(cc.cCommand_KeyLeft)
@@ -169,6 +201,10 @@ class Command:
                 msg('delete to end of line')
                 return False
 
+            if key==ord('D') and state=='':
+                self.prefix_d = True
+                msg('delete?')
+                return False
 
     def on_key_up(self, ed_self, key, state):
         if not self.active: return

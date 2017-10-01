@@ -18,10 +18,17 @@ c) Vim command mode has supported keys:
   R - enter replace mode
   o - creates empty line below current line (and goes into insertion mode on new line)
   O - creates empty line above current line (and goes into insertion mode on new line)
+
   gg - go to text begin
   G - go to line number (if number entered before), or go to text end (if none)
   | - go to column number (if number entered before, else column 1)
-  D - delete from caret ot end of line
+
+  D - delete to end of line
+  dd - delete current line
+  db - delete to word begin
+  dw, de - delete to word end (currently commands work the same)
+  dL - delete to text end
+  
 
 
 author: Alexey (CudaText)
