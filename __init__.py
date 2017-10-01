@@ -164,6 +164,11 @@ class Command:
                 msg('insert line below, insertion mode')
                 return False
 
+            if key==ord('D') and state=='s':
+                ed.cmd(cc.cCommand_TextDeleteToLineEnd)
+                msg('delete to end of line')
+                return False
+
 
     def on_key_up(self, ed_self, key, state):
         if not self.active: return

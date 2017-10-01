@@ -21,6 +21,7 @@ c) Vim command mode has supported keys:
   gg - go to text begin
   G - go to line number (if number entered before), or go to text end (if none)
   | - go to column number (if number entered before, else column 1)
+  D - delete from caret ot end of line
 
 
 author: Alexey (CudaText)
