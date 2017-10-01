@@ -26,6 +26,7 @@ d) Vim command mode supported keys:
   gg - go to text begin
   G - go to line number (if number entered before), or go to text end (if none)
   | - go to column number (if number entered before, else column 1)
+  0 - go to line begin (column 1)
 
   x - delete char right (like Delete key)
   X - delete char left (like Backspace key)

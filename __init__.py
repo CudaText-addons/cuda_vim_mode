@@ -137,9 +137,16 @@ class Command:
             return False
 
 
-        if text in string.digits:
-            self.number += text
-            msg('number: '+self.number)
+        if text in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+            use_num = True
+            if text=='0' and self.number=='':
+                use_num = False
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                ed.set_caret(0, y0)
+                msg('move to column 1')
+            if use_num:
+                self.number += text
+                msg('number: '+self.number)
             return False
 
         if text=='g':
