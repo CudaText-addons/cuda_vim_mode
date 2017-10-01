@@ -334,6 +334,13 @@ class Command:
             msg('delete to end of line')
             return False
 
+        if text=='C':
+            ed.cmd(cc.cCommand_TextDeleteToLineEnd)
+            msg('change to end of line')
+            self.insert = True
+            self.update_caret()
+            return False
+
         if text=='c':
             self.prefix_c = True
             msg('change?')
