@@ -34,9 +34,10 @@ d) Vim command mode supported keys:
   dL - delete to text end
   d/ - delete until text position (text is asked in dialog)
 
-  v - enter Vim visual mode
-  V - enter Vim visual mode, but select entire lines
+  v - enter visual mode
+  V - enter visual mode, but select entire lines
   
 
 author: Alexey (CudaText)
+suggestions by @mangobait
 license: MIT
