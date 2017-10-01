@@ -34,6 +34,8 @@ d) Vim command mode supported keys:
   dL - delete to text end
   d/ - delete until text position (text is asked in dialog)
 
+  c - change - like "d" commands (cd, cb, cw, ce...) but also goes to insertion mode 
+  
   v - enter visual mode
   V - enter visual mode, but select entire lines
   

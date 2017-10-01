@@ -15,6 +15,7 @@ class Command:
     visual_start = None
     replace_char = False
     prefix_g = False
+    prefix_c = False
     prefix_d = False
     number = ''
     caret_normal = 2
@@ -173,35 +174,28 @@ class Command:
             return False
 
 
-        if self.prefix_d:
-            self.prefix_d = False
-
+        if self.prefix_c or self.prefix_d:
             if text=='d':
                 ed.cmd(cc.cCommand_TextDeleteLine)
                 msg('delete line')
-                return False
 
-            if text=='w':
+            elif text=='w':
                 ed.cmd(cc.cCommand_TextDeleteWordNext)
                 msg('delete to word end')
-                return False
 
-            if text=='e':
+            elif text=='e':
                 ed.cmd(cc.cCommand_TextDeleteWordNext)
                 msg('delete to word end')
-                return False
 
-            if text=='b':
+            elif text=='b':
                 ed.cmd(cc.cCommand_TextDeleteWordPrev)
                 msg('delete to word begin')
-                return False
 
-            if text=='L':
+            elif text=='L':
                 ed.cmd(cc.cCommand_TextDeleteToTextEnd)
                 msg('delete to text end')
-                return False
 
-            if text=='/':
+            elif text=='/':
                 s = dlg_input('Delete to text:', '')
                 if s:
                     x0, y0, x1, y1 = ed.get_carets()[0]
@@ -214,7 +208,13 @@ class Command:
                         msg('not found: '+s)
                 else:
                     msg('Esc')
-                return False
+
+            if self.prefix_c:
+                self.insert = True
+                self.update_caret()
+            self.prefix_c = False
+            self.prefix_d = False
+            return False
 
 
         if text=='h':
@@ -304,6 +304,11 @@ class Command:
         if text=='D':
             ed.cmd(cc.cCommand_TextDeleteToLineEnd)
             msg('delete to end of line')
+            return False
+
+        if text=='c':
+            self.prefix_c = True
+            msg('change?')
             return False
 
         if text=='d':
