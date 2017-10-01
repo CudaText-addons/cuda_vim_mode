@@ -59,3 +59,11 @@ def find_text_pos(x0, y0, text):
         npos = sline.find(text, x_start)
         if npos>=0:
             return (npos, nline)
+
+
+def goto_first_nonspace_char(nline):
+    s = ed.get_text_line(nline)
+    x = 0
+    while x<len(s) and s[x] in (' ', '\t'):
+        x += 1
+    ed.set_caret(x, nline)

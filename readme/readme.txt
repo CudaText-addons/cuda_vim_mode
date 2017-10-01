@@ -11,6 +11,7 @@ d) Vim command mode supported keys:
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
   b - go to previous word (same note)
   e - go to end of word (or next word)
+  ^ - go to first non-space char
 
   a - enter insertion mode, after moving caret right
   A - enter insertion mode, at line end

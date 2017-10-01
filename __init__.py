@@ -290,12 +290,14 @@ class Command:
             self.insert = True
             self.update_caret()
             x0, y0, x1, y1 = ed.get_carets()[0]
-            s = ed.get_text_line(y0)
-            x0 = 0
-            while x0<len(s) and s[x0] in (' ', '\t'):
-                x0 += 1
-            ed.set_caret(x0, y0)
+            goto_first_nonspace_char(y0)
             msg('insertion mode, at 1st non-space char')
+            return False
+
+        if text=='^':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            goto_first_nonspace_char(y0)
+            msg('go to 1st non-space char')
             return False
 
         if text=='x':
