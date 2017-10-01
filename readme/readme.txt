@@ -3,7 +3,8 @@ command in Plugins menu activates Vim key bindings, initially in Vim command mod
 
 a) Vim insertion mode - all keys work like usual in CudaText, only Esc goes to command mode
 b) Vim replace mode - like insertion mode, but "insert/overwrite mode" is "overwrite"
-c) Vim command mode supported keys:
+c) Vim visual mode - all movement keys (arrows/home/end/pageup/pagedown) make selection w/o Shift
+d) Vim command mode supported keys:
 
   h, j, k, l - caret movement
 
@@ -33,6 +34,9 @@ c) Vim command mode supported keys:
   dL - delete to text end
   d/ - delete until text position (text is asked in dialog)
 
+  v - enter Vim visual mode
+  V - enter Vim visual mode, but select entire lines
+  
 
 author: Alexey (CudaText)
 license: MIT

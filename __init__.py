@@ -11,6 +11,7 @@ class Command:
     active = False
     insert = False
     visual = False
+    visual_lines = False
     visual_start = None
     replace_char = False
     prefix_g = False
@@ -52,6 +53,7 @@ class Command:
                 return False
             elif self.visual:
                 self.visual = False
+                self.visual_lines = False
                 self.visual_start = None
                 self.update_caret()
                 msg('command mode')
@@ -63,9 +65,47 @@ class Command:
                 return
 
         if key in [ck.VK_LEFT, ck.VK_RIGHT, ck.VK_UP, ck.VK_DOWN,
-                    ck.VK_PAGEUP, ck.VK_PAGEDOWN]:
-            msg('arrow key')
-            return
+                   ck.VK_PAGEUP, ck.VK_PAGEDOWN,
+                   ck.VK_HOME, ck.VK_END]:
+            if self.visual:
+                xx, yy = self.visual_start
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                y_max = ed.get_line_count()-1
+
+                if key==ck.VK_LEFT:
+                    if x0>0:
+                        x0-=1
+                elif key==ck.VK_RIGHT:
+                    x0+=1
+                elif key==ck.VK_UP:
+                    if y0>0:
+                        y0-=1
+                elif key==ck.VK_DOWN:
+                    if y0<y_max:
+                        y0+=1
+                elif key==ck.VK_PAGEUP:
+                    y0 = max(0, y0-ed.get_prop(PROP_VISIBLE_LINES)+1)
+                elif key==ck.VK_PAGEDOWN:
+                    y0 = min(y_max, y0+ed.get_prop(PROP_VISIBLE_LINES)-1)
+                elif key==ck.VK_HOME:
+                    x0 = 0
+                elif key==ck.VK_END:
+                    x0 = len(ed.get_text_line(y0))
+
+                if self.visual_lines:
+                    if y0<yy:
+                        x0 = 0
+                        xx = len(ed.get_text_line(yy))
+                    else:
+                        xx = 0
+                        x0 = len(ed.get_text_line(y0))
+
+                ed.set_caret(x0, y0, xx, yy)
+                msg('visual selection')
+                return False
+            else:
+                msg('movement key')
+                return
 
         if self.insert:
             msg('insertion mode')
@@ -236,9 +276,10 @@ class Command:
                 msg('delete?')
                 return False
 
-            if key==ord('V') and state=='':
+            if key==ord('V'):
                 x0, y0, x1, y1 = ed.get_carets()[0]
                 self.visual = True
+                self.visual_lines = state=='s'
                 self.visual_start = (x0, y0)
                 self.update_caret()
                 msg('visual mode')
