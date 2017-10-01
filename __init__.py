@@ -176,10 +176,6 @@ class Command:
         if self.insert:
             return
 
-        if not self.replace_char:
-            msg('key not handled')
-            return False
-
         if self.replace_char:
             self.replace_char = False
 
@@ -188,3 +184,30 @@ class Command:
 
             msg('replace char to: '+text)
             return False
+
+        if text=='|':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+
+            if self.number=='':
+                index = 0
+            else:
+                try:
+                    index = int(self.number)-1
+                except:
+                    index = -1
+                self.number = ''
+
+                nlen = len(ed.get_text_line(y0))
+                if not 0<=index<=nlen:
+                    msg('incorrect column: '+str(index+1))
+                    return False
+
+            ed.set_caret(index, y0)
+            msg('go to column '+str(index+1))
+            return False
+
+
+        if not self.replace_char:
+            msg('key not handled')
+            return False
+

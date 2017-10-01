@@ -20,6 +20,7 @@ c) Vim command mode has supported keys:
   O - creates empty line above current line (and goes into insertion mode on new line)
   gg - go to text begin
   G - go to line number (if number entered before), or go to text end (if none)
+  | - go to column number (if number entered before, else column 1)
 
 
 author: Alexey (CudaText)
