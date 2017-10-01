@@ -11,7 +11,7 @@ class Command:
     active = False
     insert = False
     replace_char = False
-    count_g = 0
+    prefix_g = False
     number = ''
 
 
@@ -55,16 +55,16 @@ class Command:
                 return False
 
             if key==ord('G') and state=='':
-                if self.count_g==0:
-                    self.count_g += 1
+                if not self.prefix_g:
+                    self.prefix_g = True
                     msg('go to?')
                 else:
-                    self.count_g = 0
+                    self.prefix_g = False
                     ed.cmd(cc.cCommand_GotoTextBegin)
                     msg('go to text begin')
                 return False
             else:
-                self.count_g = 0
+                self.prefix_g = False
 
             if key==ord('G') and state=='s':
                 if self.number=='':
