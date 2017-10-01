@@ -202,17 +202,20 @@ class Command:
                 msg('right')
                 return False
 
-            if key==ord('B') and state=='':
+            if key==ord('B'):
+                # and state=='':
                 ed.cmd(cc.cCommand_GotoWordPrev)
                 msg('go to prev word')
                 return False
 
-            if key==ord('W') and state=='':
+            if key==ord('W'):
+                # and state=='':
                 ed.cmd(cc.cCommand_GotoWordNext)
                 msg('go to next word')
                 return False
 
-            if key==ord('E') and state=='':
+            if key==ord('E'):
+                # and state=='':
                 goto_word_end()
                 msg('go to word end')
                 return False
