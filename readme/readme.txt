@@ -28,7 +28,7 @@ c) Vim command mode has supported keys:
   db - delete to word begin
   dw, de - delete to word end (currently commands work the same)
   dL - delete to text end
-  
+  d/text - delete until text position
 
 
 author: Alexey (CudaText)

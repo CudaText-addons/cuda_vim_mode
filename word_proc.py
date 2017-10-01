@@ -45,3 +45,17 @@ def goto_word_end():
         xw, yw, nlen, str = info
 
     ed.set_caret(xw+nlen-1, yw)
+
+
+def find_text_pos(x0, y0, text):
+
+    for nline in range(y0, ed.get_line_count()):
+        if nline==y0:
+            x_start = x0
+        else:
+            x_start = 0
+
+        sline = ed.get_text_line(nline)
+        npos = sline.find(text, x_start)
+        if npos>=0:
+            return (npos, nline)

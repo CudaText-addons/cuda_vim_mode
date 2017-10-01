@@ -47,6 +47,9 @@ class Command:
                 msg('command mode')
                 return False
             else:
+                self.prefix_d = False
+                self.prefix_g = False
+                msg('Esc')
                 return
 
         if key in [ck.VK_LEFT, ck.VK_RIGHT, ck.VK_UP, ck.VK_DOWN,
@@ -242,6 +245,22 @@ class Command:
 
             msg('replace char to: '+text)
             return False
+
+
+        if text=='/' and self.prefix_d:
+            self.prefix_d = False
+            s = dlg_input('Delete to text:', '')
+            if s:
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                res = find_text_pos(x0, y0, s)
+                if res:
+                    x1, y1 = res
+                    ed.delete(x0, y0, x1, y1)
+                    msg('delete to text: '+s)
+                else:
+                    msg('not found: '+s)
+            return False
+
 
         if text=='|':
             x0, y0, x1, y1 = ed.get_carets()[0]
