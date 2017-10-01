@@ -6,7 +6,7 @@ b) Vim replace mode - like insertion mode, but "insert/overwrite mode" is "overw
 c) Vim visual mode - all movement keys (arrows/home/end/pageup/pagedown) make selection w/o Shift
 d) Vim command mode supported keys:
 
-  h, j, k, l - caret movement
+  h, j, k, l - move caret (4 arrows)
 
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
   b - go to previous word (same note)
