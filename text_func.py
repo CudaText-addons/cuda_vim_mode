@@ -102,3 +102,4 @@ def find_text_in_line(x0, y0, text, next, before):
         ed.set_caret(n, y0)
         return True
 
+

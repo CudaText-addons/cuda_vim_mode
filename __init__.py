@@ -508,8 +508,14 @@ class Command:
             return False
 
         if text=='p':
-            ed.cmd(cc.cCommand_ClipboardPaste)
-            msg('paste')
+            ed.cmd(cc.cCommand_KeyRight)
+            ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
+            msg('paste, after caret')
+            return False
+
+        if text=='P':
+            ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
+            msg('paste, before caret')
             return False
 
         if text=='x':
