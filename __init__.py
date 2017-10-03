@@ -291,9 +291,7 @@ class Command:
         if text=='A':
             self.insert = True
             self.update_caret()
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            s = ed.get_text_line(y0)
-            ed.set_caret(len(s), y0)
+            goto_after_line()
             msg('insertion mode, at line end')
             return False
 
@@ -437,9 +435,7 @@ class Command:
             return False
 
         if text=='$':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            s = ed.get_text_line(y0)
-            ed.set_caret(len(s), y0)
+            goto_after_line()
             msg('move to line end')
             return False
 
@@ -557,10 +553,7 @@ class Command:
             return False
 
         if text=='J':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            s = ed.get_text_line(y0)
-            ed.set_caret(len(s), y0)
-
+            goto_after_line()
             ed.cmd(cc.cCommand_TextInsert, ' ')
             ed.cmd(cc.cCommand_KeyDelete)
             msg('join with next line')

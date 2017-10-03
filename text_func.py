@@ -103,3 +103,8 @@ def find_text_in_line(x0, y0, text, next, before):
         return True
 
 
+def goto_after_line():
+    x0, y0, x1, y1 = ed.get_carets()[0]
+    s = ed.get_text_line(y0)
+    ed.set_caret(len(s), y0)
+
