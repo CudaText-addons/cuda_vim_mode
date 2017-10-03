@@ -475,6 +475,11 @@ class Command:
                 msg('search string not set')
             return False
 
+        if text=='u':
+            ed.cmd(cc.cCommand_Undo)
+            msg('undo')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')

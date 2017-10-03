@@ -56,7 +56,9 @@ d) Vim command mode supported keys:
   ? - search backward
   n - repeat search in the same direction
   N - repeat search in the opposite direction
-  
+
+  u - undo
+    
 
 author: Alexey (CudaText)
 suggestions by @mangobait
