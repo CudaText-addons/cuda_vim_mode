@@ -61,6 +61,21 @@ def find_text_pos(x0, y0, text):
             return (npos, nline)
 
 
+def find_text_pos_backward(x0, y0, text):
+
+    for nline in range(y0, -1, -1):
+        sline = ed.get_text_line(nline)
+
+        if nline==y0:
+            x_start = x0
+        else:
+            x_start = len(sline)
+
+        npos = sline.rfind(text, 0, x_start)
+        if npos>=0:
+            return (npos, nline)
+
+
 def goto_first_nonspace_char(nline):
     s = ed.get_text_line(nline)
     x = 0

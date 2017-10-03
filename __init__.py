@@ -434,6 +434,21 @@ class Command:
                 msg('Esc')
             return False
 
+        if text=='?':
+            s = dlg_input('Search backward:', '')
+            if s:
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                res = find_text_pos_backward(x0, y0, s)
+                if res:
+                    x1, y1 = res
+                    ed.set_caret(x1, y1)
+                    msg('found: '+s)
+                else:
+                    msg('not found: '+s)
+            else:
+                msg('Esc')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')
