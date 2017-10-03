@@ -300,6 +300,20 @@ class Command:
             msg('go to 1st non-space char')
             return False
 
+        if text=='-':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            if y0>0:
+                goto_first_nonspace_char(y0-1)
+                msg('go to 1st non-space char, at prev line')
+            return False
+
+        if text=='+':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            if y0<ed.get_line_count()-1:
+                goto_first_nonspace_char(y0+1)
+                msg('go to 1st non-space char, at next line')
+            return False
+
         if text=='x':
             ed.cmd(cc.cCommand_KeyDelete)
             msg('delete char')

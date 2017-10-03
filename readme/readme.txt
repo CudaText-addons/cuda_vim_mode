@@ -29,6 +29,8 @@ d) Vim command mode supported keys:
   | - go to column number (if number entered before, else column 1)
   0 - go to line begin (column 1)
   ^ - go to first non-space char
+  - - go to first non-space char, in previous line
+  + - go to first non-space char, in next line
   $ - go to line end
 
   x - delete char right (like Delete key)
