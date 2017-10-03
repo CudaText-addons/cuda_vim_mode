@@ -66,6 +66,7 @@ d) Vim command mode supported keys:
 
   u - undo
   ~ - invert case of selection (if selection) or one char
+  J - join current line with the next one (delete EOL at current line)
     
 
 author: Alexey (CudaText)

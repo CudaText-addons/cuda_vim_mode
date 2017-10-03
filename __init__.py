@@ -556,6 +556,16 @@ class Command:
             ed.cmd(cc.cCommand_SelectNone)
             return False
 
+        if text=='J':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            s = ed.get_text_line(y0)
+            ed.set_caret(len(s), y0)
+
+            ed.cmd(cc.cCommand_TextInsert, ' ')
+            ed.cmd(cc.cCommand_KeyDelete)
+            msg('join with next line')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')
