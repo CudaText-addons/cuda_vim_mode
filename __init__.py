@@ -18,7 +18,8 @@ class Command:
     prefix_c = False
     prefix_d = False
     prefix_f = False
-    prefix_f_back = False
+    prefix_f_fw = True
+    prefix_f_before = False
     number = ''
     caret_normal = 2
     find_str = ''
@@ -149,7 +150,9 @@ class Command:
         if self.prefix_f:
             self.prefix_f = False
             x0, y0, x1, y1 = ed.get_carets()[0]
-            if find_text_in_line(x0, y0, text, not self.prefix_f_back):
+            if find_text_in_line(x0, y0, text,
+                    self.prefix_f_fw,
+                    self.prefix_f_before):
                 msg('found: '+text)
             else:
                 msg('not found in line: '+text)
@@ -386,9 +389,10 @@ class Command:
             msg('delete?')
             return False
 
-        if text in ('f', 'F'):
+        if text in ('f', 'F', 't', 'T'):
             self.prefix_f = True
-            self.prefix_f_back = text=='F'
+            self.prefix_f_fw = text in ('f', 't')
+            self.prefix_f_before = text in ('t', 'T')
             msg('find char?')
             return False
 

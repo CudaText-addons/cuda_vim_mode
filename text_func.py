@@ -84,7 +84,7 @@ def goto_first_nonspace_char(nline):
     ed.set_caret(x, nline)
 
 
-def find_text_in_line(x0, y0, text, next):
+def find_text_in_line(x0, y0, text, next, before):
     sline = ed.get_text_line(y0)
     if not sline: return
 
@@ -94,6 +94,11 @@ def find_text_in_line(x0, y0, text, next):
         n = sline.rfind(text, 0, x0)
 
     if n>=0:
+        if before:
+            if next:
+                n -= 1
+            else:
+                n += 1
         ed.set_caret(n, y0)
         return True
 

@@ -57,7 +57,9 @@ d) Vim command mode supported keys:
   n - repeat search in the same direction
   N - repeat search in the opposite direction
   f - find next typed character, inside line
-  F - like "f" but search backward
+  F - backward version of "f"
+  t - like "f" but set position minus one char
+  T - backward version of "t"  
 
   u - undo
     
