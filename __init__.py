@@ -1,7 +1,7 @@
 from cudatext import *
 import cudatext_cmd as cc
 import cudatext_keys as ck
-from .word_proc import *
+from .text_func import *
 
 def msg(s):
     msg_status('[Vim] '+s)
@@ -418,6 +418,22 @@ class Command:
             ed.set_caret(len(s), y0)
             msg('move to line end')
             return False
+
+        if text=='/':
+            s = dlg_input('Search forward:', '')
+            if s:
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                res = find_text_pos(x0+1, y0, s)
+                if res:
+                    x1, y1 = res
+                    ed.set_caret(x1, y1)
+                    msg('found: '+s)
+                else:
+                    msg('not found: '+s)
+            else:
+                msg('Esc')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')
