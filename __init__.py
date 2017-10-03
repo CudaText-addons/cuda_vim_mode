@@ -148,7 +148,7 @@ class Command:
                 use_num = False
                 x0, y0, x1, y1 = ed.get_carets()[0]
                 ed.set_caret(0, y0)
-                msg('move to column 1')
+                msg('move to line begin')
             if use_num:
                 self.number += text
                 msg('number: '+self.number)
@@ -396,6 +396,13 @@ class Command:
         if text==' ':
             ed.cmd(cc.cCommand_KeyRight)
             msg('move right')
+            return False
+
+        if text=='$':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            s = ed.get_text_line(y0)
+            ed.set_caret(len(s), y0)
+            msg('move to line end')
             return False
 
         #block all text in command mode
