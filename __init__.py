@@ -503,22 +503,34 @@ class Command:
             return False
 
         if text=='y':
+            self.visual = False
+            self.update_caret()
+
             ed.cmd(cc.cCommand_ClipboardCopy)
             msg('copy/yank')
             return False
 
         if text=='p':
+            self.visual = False
+            self.update_caret()
+
             ed.cmd(cc.cCommand_KeyRight)
             ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
             msg('paste, after caret')
             return False
 
         if text=='P':
+            self.visual = False
+            self.update_caret()
+
             ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
             msg('paste, before caret')
             return False
 
         if text=='x':
+            self.visual = False
+            self.update_caret()
+
             x0, y0, x1, y1 = ed.get_carets()[0]
             if y1>=0:
                 ed.cmd(cc.cCommand_ClipboardCut)
