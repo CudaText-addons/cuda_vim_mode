@@ -11,7 +11,6 @@ d) Vim command mode supported keys:
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
   b - go to previous word (same note)
   e - go to end of word (or next word)
-  ^ - go to first non-space char
 
   a - enter insertion mode, after moving caret right
   A - enter insertion mode, at line end
@@ -26,8 +25,10 @@ d) Vim command mode supported keys:
 
   gg - go to text begin
   G - go to line number (if number entered before), or go to text end (if none)
+
   | - go to column number (if number entered before, else column 1)
   0 - go to line begin (column 1)
+  ^ - go to first non-space char
   $ - go to line end
 
   x - delete char right (like Delete key)
