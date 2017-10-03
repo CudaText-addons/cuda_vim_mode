@@ -17,6 +17,8 @@ class Command:
     prefix_g = False
     prefix_c = False
     prefix_d = False
+    prefix_f = False
+    prefix_f_back = False
     number = ''
     caret_normal = 2
     find_str = ''
@@ -64,6 +66,7 @@ class Command:
             else:
                 self.prefix_d = False
                 self.prefix_g = False
+                self.prefix_f = False
                 msg('Esc')
                 return
 
@@ -141,6 +144,15 @@ class Command:
             ed.replace(x0, y0, x0+len(text), y0, text)
 
             msg('replace char to: '+text)
+            return False
+
+        if self.prefix_f:
+            self.prefix_f = False
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            if find_text_in_line(x0, y0, text, not self.prefix_f_back):
+                msg('found: '+text)
+            else:
+                msg('not found in line: '+text)
             return False
 
 
@@ -372,6 +384,12 @@ class Command:
         if text=='d':
             self.prefix_d = True
             msg('delete?')
+            return False
+
+        if text in ('f', 'F'):
+            self.prefix_f = True
+            self.prefix_f_back = text=='F'
+            msg('find char?')
             return False
 
         if text in ['v', 'V']:

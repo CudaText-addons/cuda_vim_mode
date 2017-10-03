@@ -82,3 +82,18 @@ def goto_first_nonspace_char(nline):
     while x<len(s) and s[x] in (' ', '\t'):
         x += 1
     ed.set_caret(x, nline)
+
+
+def find_text_in_line(x0, y0, text, next):
+    sline = ed.get_text_line(y0)
+    if not sline: return
+
+    if next:
+        n = sline.find(text, x0+1)
+    else:
+        n = sline.rfind(text, 0, x0)
+
+    if n>=0:
+        ed.set_caret(n, y0)
+        return True
+

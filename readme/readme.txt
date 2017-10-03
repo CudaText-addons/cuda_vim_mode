@@ -52,10 +52,12 @@ d) Vim command mode supported keys:
   Space - move right
   Backspace - move left
   
-  / - search forward (asks string in dialog)
+  / - search forward, prompts for string in dialog
   ? - search backward
   n - repeat search in the same direction
   N - repeat search in the opposite direction
+  f - find next typed character, inside line
+  F - like "f" but search backward
 
   u - undo
     
