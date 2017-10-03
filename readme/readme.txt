@@ -65,6 +65,7 @@ d) Vim command mode supported keys:
   T - backward version of "t"  
 
   u - undo
+  ~ - invert case of selection (if selection) or one char
     
 
 author: Alexey (CudaText)

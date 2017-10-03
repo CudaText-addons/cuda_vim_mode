@@ -541,6 +541,21 @@ class Command:
                 msg('cut one char')
             return False
 
+        if text=='~':
+            self.visual = False
+            self.update_caret()
+
+            if ed.get_text_sel():
+                ed.cmd(cc.cCommand_TextCaseInvert)
+                msg('invert case of selection')
+            else:
+                ed.cmd(cc.cCommand_KeyRight_Sel)
+                ed.cmd(cc.cCommand_TextCaseInvert)
+                msg('invert case of char')
+
+            ed.cmd(cc.cCommand_SelectNone)
+            return False
+
 
         #block all text in command mode
         msg('key not handled')
