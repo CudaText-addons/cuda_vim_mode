@@ -33,8 +33,10 @@ d) Vim command mode supported keys:
   + - go to first non-whitespace, in next line
   $ - go to line end
 
-  x - delete char right (like Delete key)
   X - delete char left (like Backspace key)
+  x - cut selection (if selection) or one char
+  y - yank/copy to clipboard
+  p - paste from clipboard
 
   D - delete to end of line
   dd - delete current line

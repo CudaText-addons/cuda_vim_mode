@@ -331,10 +331,10 @@ class Command:
                 msg('go to 1st non-space char, at next line')
             return False
 
-        if text=='x':
-            ed.cmd(cc.cCommand_KeyDelete)
-            msg('delete char')
-            return False
+        #if text=='x':
+        #    ed.cmd(cc.cCommand_KeyDelete)
+        #    msg('delete char')
+        #    return False
 
         if text=='X':
             ed.cmd(cc.cCommand_KeyBackspace)
@@ -500,6 +500,27 @@ class Command:
         if text=='u':
             ed.cmd(cc.cCommand_Undo)
             msg('undo')
+            return False
+
+        if text=='y':
+            ed.cmd(cc.cCommand_ClipboardCopy)
+            msg('copy/yank')
+            return False
+
+        if text=='p':
+            ed.cmd(cc.cCommand_ClipboardPaste)
+            msg('paste')
+            return False
+
+        if text=='x':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            if y1>=0:
+                ed.cmd(cc.cCommand_ClipboardCut)
+                msg('cut selection')
+            else:
+                ed.set_caret(x0, y0, x0+1, y0)
+                ed.cmd(cc.cCommand_ClipboardCut)
+                msg('cut one char')
             return False
 
 
