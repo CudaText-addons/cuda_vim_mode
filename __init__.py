@@ -19,6 +19,8 @@ class Command:
     prefix_d = False
     number = ''
     caret_normal = 2
+    find_str = ''
+    find_fw = True
 
 
     def update_caret(self):
@@ -422,6 +424,8 @@ class Command:
         if text=='/':
             s = dlg_input('Search forward:', '')
             if s:
+                self.find_str = s
+                self.find_fw = True
                 x0, y0, x1, y1 = ed.get_carets()[0]
                 res = find_text_pos(x0+1, y0, s)
                 if res:
@@ -437,6 +441,8 @@ class Command:
         if text=='?':
             s = dlg_input('Search backward:', '')
             if s:
+                self.find_str = s
+                self.find_fw = False
                 x0, y0, x1, y1 = ed.get_carets()[0]
                 res = find_text_pos_backward(x0, y0, s)
                 if res:
@@ -447,6 +453,26 @@ class Command:
                     msg('not found: '+s)
             else:
                 msg('Esc')
+            return False
+
+        if text in ('n', 'N'):
+            s = self.find_str
+            if s:
+                x0, y0, x1, y1 = ed.get_carets()[0]
+                #use xor to invert value
+                is_next = self.find_fw ^ (text=='N')
+                if is_next:
+                    res = find_text_pos(x0+1, y0, s)
+                else:
+                    res = find_text_pos_backward(x0, y0, s)
+                if res:
+                    x1, y1 = res
+                    ed.set_caret(x1, y1)
+                    msg('found (%s): '%('next' if is_next else 'back') + s)
+                else:
+                    msg('not found: '+s)
+            else:
+                msg('search string not set')
             return False
 
 

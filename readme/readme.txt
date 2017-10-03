@@ -54,6 +54,8 @@ d) Vim command mode supported keys:
   
   / - search forward (asks string in dialog)
   ? - search backward
+  n - repeat search in the same direction
+  N - repeat search in the opposite direction
   
 
 author: Alexey (CudaText)
