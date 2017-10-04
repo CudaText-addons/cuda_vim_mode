@@ -1,3 +1,6 @@
 
+2017.10.04
++ commands, most needed for main user, done
+
 2017.10.01
 initial

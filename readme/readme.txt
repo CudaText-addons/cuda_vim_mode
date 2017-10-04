@@ -1,5 +1,11 @@
 plugin for CudaText.
-command in Plugins menu activates Vim key bindings, initially in Vim command mode. Vim mode is activated in all editor tabs at once. indication of Vim mode is full-block-framed caret. 
+command in Plugins menu activates Vim key bindings, initially in Vim command mode. Vim mode is activated in all editor tabs at once. 
+
+indication of modes:
+- Vim command mode: full-block-frame caret
+- Vim visual mode: half-block caret
+- Vim insertion mode: no indication, usual caret
+ 
 
 a) Vim insertion mode - all keys work like usual in CudaText, only Esc goes to command mode
 b) Vim replace mode - like insertion mode, but "insert/overwrite mode" is "overwrite"
