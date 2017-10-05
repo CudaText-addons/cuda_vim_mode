@@ -71,16 +71,23 @@ class Command:
                 msg('Esc')
                 return
 
-        if not self.insert and key==ck.VK_BACKSPACE:
+        if self.insert:
+            if ed.get_prop(PROP_INSERT):
+                msg('insertion mode')
+            else:
+                msg('replace mode')
+            return
+
+        if key==ck.VK_BACKSPACE:
             ed.cmd(cc.cCommand_KeyLeft)
             msg('move left')
             return False
 
-        if not self.insert and key in [
+        if key in [
                 ck.VK_LEFT, ck.VK_RIGHT,
                 ck.VK_UP, ck.VK_DOWN,
                 ck.VK_PAGEUP, ck.VK_PAGEDOWN,
-                ck.VK_HOME, ck.VK_END]:
+                ck.VK_HOME, ck.VK_END] and state=='':
             if self.visual:
                 xx, yy = self.visual_start
                 x0, y0, x1, y1 = ed.get_carets()[0]
@@ -124,13 +131,6 @@ class Command:
             else:
                 msg('movement key')
                 return
-
-        if self.insert:
-            if ed.get_prop(PROP_INSERT):
-                msg('insertion mode')
-            else:
-                msg('replace mode')
-            return
 
 
     def on_insert(self, ed_self, text):
