@@ -1,5 +1,6 @@
 
 2017.10.05.2
++ added: command Y
 - fixed: command 'de'
 + added: commands H M L
 

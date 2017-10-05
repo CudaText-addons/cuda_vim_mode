@@ -514,6 +514,14 @@ class Command:
             msg('copy/yank')
             return False
 
+        if text=='Y':
+            self.visual = False
+            self.update_caret()
+
+            ed.cmd(cc.cmd_CopyLine)
+            msg('copy/yank entire line')
+            return False
+
         if text=='p':
             self.visual = False
             self.update_caret()

@@ -43,6 +43,7 @@ d) Vim command mode supported keys:
   X - delete char left (like Backspace key)
   
   y - yank (copy) to clipboard
+  Y - yank entire line
   p - paste from clipboard, after caret
   P - paste from clipboard, before caret
   d - cut to clipboard (only if text selected, else it's prefix)
