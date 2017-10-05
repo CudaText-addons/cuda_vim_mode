@@ -329,10 +329,10 @@ class Command:
                 msg('go to 1st non-space char, at next line')
             return False
 
-        #if text=='x':
-        #    ed.cmd(cc.cCommand_KeyDelete)
-        #    msg('delete char')
-        #    return False
+        if text=='x':
+            ed.cmd(cc.cCommand_KeyDelete)
+            msg('delete char')
+            return False
 
         if text=='X':
             ed.cmd(cc.cCommand_KeyBackspace)
@@ -523,7 +523,7 @@ class Command:
             msg('paste, before caret')
             return False
 
-        if text=='x':
+        if text=='x_____': #???? what for cut
             self.visual = False
             self.update_caret()
 
