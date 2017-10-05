@@ -383,8 +383,14 @@ class Command:
             return False
 
         if text=='d':
-            self.prefix_d = True
-            msg('delete?')
+            if ed.get_text_sel():
+                self.visual = False
+                self.update_caret()
+                ed.cmd(cc.cCommand_ClipboardCut)
+                msg('cut selection')
+            else:
+                self.prefix_d = True
+                msg('delete?')
             return False
 
         if text in ('f', 'F', 't', 'T'):
@@ -521,20 +527,6 @@ class Command:
 
             ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
             msg('paste, before caret')
-            return False
-
-        if text=='x_____': #???? what for cut
-            self.visual = False
-            self.update_caret()
-
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            if y1>=0:
-                ed.cmd(cc.cCommand_ClipboardCut)
-                msg('cut selection')
-            else:
-                ed.set_caret(x0, y0, x0+1, y0)
-                ed.cmd(cc.cCommand_ClipboardCut)
-                msg('cut one char')
             return False
 
         if text=='~':

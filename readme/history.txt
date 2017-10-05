@@ -1,4 +1,8 @@
 
+2017.10.05
+- fixed: x must only delete
+- added: d in visual mode must "cut"
+
 2017.10.04
 + commands, most needed for main user, done
 
