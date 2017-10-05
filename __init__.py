@@ -556,7 +556,13 @@ class Command:
 
         if text=='J':
             goto_after_line()
-            ed.cmd(cc.cCommand_TextInsert, ' ')
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            if y0>= ed.get_line_count()-1: return
+
+            empty = ed.get_text_line(y0)=='' or ed.get_text_line(y0+1)==''
+            if not empty:
+                ed.cmd(cc.cCommand_TextInsert, ' ')
+
             ed.cmd(cc.cCommand_KeyDelete)
             msg('join with next line')
             return False
