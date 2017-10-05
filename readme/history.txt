@@ -1,8 +1,9 @@
 
 2017.10.05
++ added: commands H M L
++ added: command #
++ added: 'd' in visual mode must cut
 - fixed: 'x' must only delete
-+ added: 'd' in visual mode must "cut"
-+ added: command '#'
 
 2017.10.04
 + commands, most needed for main user, done
