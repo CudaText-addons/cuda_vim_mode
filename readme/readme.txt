@@ -39,11 +39,13 @@ d) Vim command mode supported keys:
   + - go to first non-whitespace, in next line
   $ - go to line end
 
+  x - delete char right (like Delete key)
   X - delete char left (like Backspace key)
-  x - cut selection (if selection) or one char
+  
   y - yank (copy) to clipboard
   p - paste from clipboard, after caret
   P - paste from clipboard, before caret
+  d - cut to clipboard (only if text selected, else it's prefix)
 
   D - delete to end of line
   dd - delete current line
@@ -72,7 +74,8 @@ d) Vim command mode supported keys:
 
   u - undo
   ~ - invert case of selection (if selection) or one char
-  J - join current line with the next one (delete EOL at current line)
+  # - go to next occurence of current word (looping from begin)
+  J - join current line with the next one
     
 
 author: Alexey (CudaText)

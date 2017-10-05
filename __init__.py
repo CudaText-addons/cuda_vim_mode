@@ -551,6 +551,13 @@ class Command:
             msg('join with next line')
             return False
 
+        if text=='#':
+            if goto_next_word_match():
+                msg('found next match')
+            else:
+                msg('not found next match')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')

@@ -47,7 +47,7 @@ def goto_word_end():
     ed.set_caret(xw+nlen-1, yw)
 
 
-def find_text_pos(x0, y0, text):
+def find_text_pos(x0, y0, text, whole_word=False):
 
     for nline in range(y0, ed.get_line_count()):
         if nline==y0:
@@ -56,9 +56,20 @@ def find_text_pos(x0, y0, text):
             x_start = 0
 
         sline = ed.get_text_line(nline)
-        npos = sline.find(text, x_start)
-        if npos>=0:
-            return (npos, nline)
+
+        if not whole_word:
+            npos = sline.find(text, x_start)
+            if npos>=0:
+                return (npos, nline)
+        else:
+            npos = x_start-1
+            while True:
+                npos = sline.find(text, npos+1)
+                if npos<0: break
+                ok_left = npos==0 or not sline[npos-1].isalnum()
+                ok_right = npos>=len(sline)-len(text) or not sline[npos+len(text)].isalnum()
+                if ok_left and ok_right:
+                    return (npos, nline)
 
 
 def find_text_pos_backward(x0, y0, text):
@@ -107,4 +118,21 @@ def goto_after_line():
     x0, y0, x1, y1 = ed.get_carets()[0]
     s = ed.get_text_line(y0)
     ed.set_caret(len(s), y0)
+
+
+def goto_next_word_match():
+    x0, y0, x1, y1 = ed.get_carets()[0]
+    info = get_word_info(x0, y0)
+    if not info: return
+
+    x0, y0, nlen, sword = info
+    pos = find_text_pos(x0+nlen, y0, sword, True)
+    if not pos:
+        #loop from begin
+        pos = find_text_pos(0, 0, sword, True)
+    x1, y1 = pos
+    if (x1, y1)==(x0, y0):
+        return
+    ed.set_caret(x1, y1)
+    return True
 
