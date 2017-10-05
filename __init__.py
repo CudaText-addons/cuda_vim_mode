@@ -96,24 +96,23 @@ class Command:
                 y_max = ed.get_line_count()-1
 
                 if key in (ck.VK_LEFT, ord('H')):
-                    if x0>0:
-                        x0-=1
+                    ed.cmd(cc.cCommand_KeyLeft)
                 elif key in (ck.VK_RIGHT, ord('L')):
-                    x0+=1
+                    ed.cmd(cc.cCommand_KeyRight)
                 elif key in (ck.VK_UP, ord('K')):
-                    if y0>0:
-                        y0-=1
+                    ed.cmd(cc.cCommand_KeyUp)
                 elif key in (ck.VK_DOWN, ord('J')):
-                    if y0<y_max:
-                        y0+=1
+                    ed.cmd(cc.cCommand_KeyDown)
                 elif key==ck.VK_PAGEUP:
-                    y0 = max(0, y0-ed.get_prop(PROP_VISIBLE_LINES)+1)
+                    ed.cmd(cc.cCommand_KeyPageUp)
                 elif key==ck.VK_PAGEDOWN:
-                    y0 = min(y_max, y0+ed.get_prop(PROP_VISIBLE_LINES)-1)
+                    ed.cmd(cc.cCommand_KeyPageDown)
                 elif key==ck.VK_HOME:
-                    x0 = 0
+                    ed.cmd(cc.cCommand_KeyHome)
                 elif key==ck.VK_END:
-                    x0 = len(ed.get_text_line(y0))
+                    ed.cmd(cc.cCommand_KeyEnd)
+
+                x0, y0, x1, y1 = ed.get_carets()[0]
 
                 if self.visual_lines:
                     if y0<yy:
