@@ -87,21 +87,23 @@ class Command:
                 ck.VK_LEFT, ck.VK_RIGHT,
                 ck.VK_UP, ck.VK_DOWN,
                 ck.VK_PAGEUP, ck.VK_PAGEDOWN,
-                ck.VK_HOME, ck.VK_END] and state=='':
+                ck.VK_HOME, ck.VK_END,
+                ord('H'), ord('J'), ord('K'), ord('L')
+                ] and state=='':
             if self.visual:
                 xx, yy = self.visual_start
                 x0, y0, x1, y1 = ed.get_carets()[0]
                 y_max = ed.get_line_count()-1
 
-                if key==ck.VK_LEFT:
+                if key in (ck.VK_LEFT, ord('H')):
                     if x0>0:
                         x0-=1
-                elif key==ck.VK_RIGHT:
+                elif key in (ck.VK_RIGHT, ord('L')):
                     x0+=1
-                elif key==ck.VK_UP:
+                elif key in (ck.VK_UP, ord('K')):
                     if y0>0:
                         y0-=1
-                elif key==ck.VK_DOWN:
+                elif key in (ck.VK_DOWN, ord('J')):
                     if y0<y_max:
                         y0+=1
                 elif key==ck.VK_PAGEUP:

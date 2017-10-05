@@ -1,5 +1,6 @@
 
 2017.10.06
+- fixed: visual mode and hjkl moves
 - fixed: command J
 + added: command Y
 - fixed: command 'de'
