@@ -47,6 +47,12 @@ def goto_word_end():
     ed.set_caret(xw+nlen-1, yw)
 
 
+def check_whole_word(text, sline, npos):
+    ok_l = npos==0 or not sline[npos-1].isalnum()
+    ok_r = npos>=len(sline)-len(text) or not sline[npos+len(text)].isalnum()
+    return ok_l and ok_r
+
+
 def find_text_pos(x0, y0, text, whole_word=False):
 
     for nline in range(y0, ed.get_line_count()):
@@ -66,9 +72,7 @@ def find_text_pos(x0, y0, text, whole_word=False):
             while True:
                 npos = sline.find(text, npos+1)
                 if npos<0: break
-                ok_left = npos==0 or not sline[npos-1].isalnum()
-                ok_right = npos>=len(sline)-len(text) or not sline[npos+len(text)].isalnum()
-                if ok_left and ok_right:
+                if check_whole_word(text, sline, npos):
                     return (npos, nline)
 
 
