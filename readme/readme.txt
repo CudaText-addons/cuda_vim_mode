@@ -75,7 +75,11 @@ d) Vim command mode supported keys:
   u - undo
   ~ - invert case of selection (if selection) or one char
   # - go to next occurence of current word (looping from begin)
+  
   J - join current line with the next one
+  H - go to top line on screen
+  M - go to middle line on screen
+  L - go to bottom line on screen
     
 
 author: Alexey (CudaText)

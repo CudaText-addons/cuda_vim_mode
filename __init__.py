@@ -560,6 +560,21 @@ class Command:
                 msg('not found next match')
             return False
 
+        if text=='H':
+            ed.cmd(cc.cCommand_GotoScreenTop)
+            msg('go to screen top')
+            return False
+
+        if text=='L':
+            ed.cmd(cc.cCommand_GotoScreenBottom)
+            msg('go to screen bottom')
+            return False
+
+        if text=='M':
+            ed.cmd(cc.cCommand_GotoScreenCenter)
+            msg('go to screen middle')
+            return False
+
 
         #block all text in command mode
         msg('key not handled')
