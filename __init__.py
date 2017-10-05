@@ -71,14 +71,16 @@ class Command:
                 msg('Esc')
                 return
 
-        if key==ck.VK_BACKSPACE:
+        if not self.insert and key==ck.VK_BACKSPACE:
             ed.cmd(cc.cCommand_KeyLeft)
             msg('move left')
             return False
 
-        if key in [ck.VK_LEFT, ck.VK_RIGHT, ck.VK_UP, ck.VK_DOWN,
-                   ck.VK_PAGEUP, ck.VK_PAGEDOWN,
-                   ck.VK_HOME, ck.VK_END]:
+        if not self.insert and key in [
+                ck.VK_LEFT, ck.VK_RIGHT,
+                ck.VK_UP, ck.VK_DOWN,
+                ck.VK_PAGEUP, ck.VK_PAGEDOWN,
+                ck.VK_HOME, ck.VK_END]:
             if self.visual:
                 xx, yy = self.visual_start
                 x0, y0, x1, y1 = ed.get_carets()[0]
