@@ -19,8 +19,9 @@ def get_word_info(x0, y0):
     return (x1, y0, x2-x1, text[x1:x2])
 
 
-def goto_word_end():
+def goto_word_end(and_delete=False):
     x0, y0, x1, y1 = ed.get_carets()[0]
+    x00, y00 = x0, y0
     s = ed.get_text_line(y0)
     if not (0<=x0<len(s)):
         return
@@ -44,7 +45,11 @@ def goto_word_end():
         if not info: return
         xw, yw, nlen, str = info
 
-    ed.set_caret(xw+nlen-1, yw)
+    if and_delete:
+        ed.set_caret(x00,  y00)
+        ed.delete(x00, y00, xw+nlen, yw)
+    else:
+        ed.set_caret(xw+nlen-1, yw)
 
 
 def check_whole_word(text, sline, npos):

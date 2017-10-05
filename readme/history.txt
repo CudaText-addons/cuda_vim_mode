@@ -1,6 +1,9 @@
 
-2017.10.05
+2017.10.05.2
+- fixed: command 'de'
 + added: commands H M L
+
+2017.10.05
 + added: command #
 + added: 'd' in visual mode must cut
 - fixed: 'x' must only delete

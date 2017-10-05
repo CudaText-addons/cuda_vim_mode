@@ -215,7 +215,7 @@ class Command:
                 msg('delete to word end')
 
             elif text=='e':
-                ed.cmd(cc.cCommand_TextDeleteWordNext)
+                goto_word_end(True)
                 msg('delete to word end')
 
             elif text=='b':
