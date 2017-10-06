@@ -301,17 +301,17 @@ class Command:
             msg('right')
             return False
 
-        if text in ['b', 'B'] and not self.visual:
+        if text in ['b', 'B']:
             ed.cmd(cc.cCommand_GotoWordPrev)
             msg('go to prev word')
             return False
 
-        if text in ['w', 'W'] and not self.visual:
+        if text in ['w', 'W']:
             ed.cmd(cc.cCommand_GotoWordNext)
             msg('go to next word')
             return False
 
-        if text in ['e', 'E'] and not self.visual:
+        if text in ['e', 'E']:
             goto_word_end()
             msg('go to word end')
             return False
