@@ -8,7 +8,7 @@ api=1.0.200
 
 [item1]
 section=events
-events=on_key,on_insert
+events=on_key,on_insert,on_start,on_open
 
 [item2]
 section=commands

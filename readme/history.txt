@@ -1,10 +1,11 @@
 
 2017.10.06
++ ask to make Vim mode persistent
++ added: command Y
++ added: commands H M L
 - fixed: visual mode and hjkl moves
 - fixed: command J
-+ added: command Y
 - fixed: command 'de'
-+ added: commands H M L
 
 2017.10.05
 + added: command #

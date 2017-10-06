@@ -3,6 +3,8 @@ import cudatext_cmd as cc
 import cudatext_keys as ck
 from .text_func import *
 
+INI = 'cuda_vim_mode.ini'
+
 def msg(s):
     msg_status('[Vim] '+s)
 
@@ -26,6 +28,14 @@ class Command:
     find_fw = True
 
 
+    def on_start(self, ed_self):
+        op = ini_read(INI, 'op', 'on_start', '')
+        if op=='c':
+            self.toggle_active(False, False)
+        elif op=='i':
+            self.toggle_active(True, False)
+
+
     def update_caret(self):
         if self.insert or not self.active:
             value = self.caret_normal
@@ -36,14 +46,29 @@ class Command:
         ed.set_prop(PROP_CARET_SHAPE, value)
 
 
-    def toggle_active(self):
-        self.insert = False
+    def toggle_active(self, insert=False, save_op=True):
+        self.insert = insert
         self.active = not self.active
         if self.active:
             self.caret_normal = ed.get_prop(PROP_CARET_SHAPE)
             msg('plugin activated')
         else:
             msg('plugin deactivated')
+        self.update_caret()
+
+        if save_op:
+            res = msg_box('Make Vim Mode persistent, ie active after CudaText restart?\n\n'+
+                          'Yes: persistent, start in command mode\n'+
+                          'No: persistent, start in insertion mode\n'+
+                          'Cancel: not persistent',
+                MB_YESNOCANCEL+MB_ICONQUESTION)
+            if res==ID_YES: op = 'c'
+            if res==ID_NO: op = 'i'
+            if res==ID_CANCEL: op = ''
+            ini_write(INI, 'op', 'on_start', op)
+
+
+    def on_open(self, ed_self):
         self.update_caret()
 
 
