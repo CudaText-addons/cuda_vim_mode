@@ -1,6 +1,6 @@
 
-2017.10.06.2
-+ add: commands b w e work in visual mode too
+2017.10.06.4
++ reworked visual mode with all movement keys
 
 2017.10.06
 + ask to make Vim mode persistent

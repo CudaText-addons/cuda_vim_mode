@@ -72,6 +72,28 @@ class Command:
         self.update_caret()
 
 
+    def use_visual(self):
+        if not self.visual:
+            return
+        xx, yy = self.visual_start
+        x0, y0, x1, y1 = ed.get_carets()[0]
+
+        if self.visual_lines:
+            if y0<yy:
+                x0 = 0
+                xx = len(ed.get_text_line(yy))
+            else:
+                xx = 0
+                x0 = len(ed.get_text_line(y0))
+
+        ed.set_caret(x0, y0, xx, yy)
+
+        #s = 'visual selection'
+        #if self.visual_lines:
+        #    s += ', by lines'
+        #msg(s)
+
+
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
@@ -113,21 +135,15 @@ class Command:
                 ck.VK_UP, ck.VK_DOWN,
                 ck.VK_PAGEUP, ck.VK_PAGEDOWN,
                 ck.VK_HOME, ck.VK_END,
-                ord('H'), ord('J'), ord('K'), ord('L'),
-                ord('B'), ord('W'), ord('E'),
                 ] and state=='':
             if self.visual:
-                xx, yy = self.visual_start
-                x0, y0, x1, y1 = ed.get_carets()[0]
-                y_max = ed.get_line_count()-1
-
-                if key in (ck.VK_LEFT, ord('H')):
+                if key==ck.VK_LEFT:
                     ed.cmd(cc.cCommand_KeyLeft)
-                elif key in (ck.VK_RIGHT, ord('L')):
+                elif key==ck.VK_RIGHT:
                     ed.cmd(cc.cCommand_KeyRight)
-                elif key in (ck.VK_UP, ord('K')):
+                elif key==ck.VK_UP:
                     ed.cmd(cc.cCommand_KeyUp)
-                elif key in (ck.VK_DOWN, ord('J')):
+                elif key==ck.VK_DOWN:
                     ed.cmd(cc.cCommand_KeyDown)
                 elif key==ck.VK_PAGEUP:
                     ed.cmd(cc.cCommand_KeyPageUp)
@@ -137,29 +153,8 @@ class Command:
                     ed.cmd(cc.cCommand_KeyHome)
                 elif key==ck.VK_END:
                     ed.cmd(cc.cCommand_KeyEnd)
-                elif key==ord('B'):
-                    ed.cmd(cc.cCommand_GotoWordPrev)
-                elif key==ord('W'):
-                    ed.cmd(cc.cCommand_GotoWordNext)
-                elif key==ord('E'):
-                    goto_word_end(False)
 
-                x0, y0, x1, y1 = ed.get_carets()[0]
-
-                if self.visual_lines:
-                    if y0<yy:
-                        x0 = 0
-                        xx = len(ed.get_text_line(yy))
-                    else:
-                        xx = 0
-                        x0 = len(ed.get_text_line(y0))
-
-                ed.set_caret(x0, y0, xx, yy)
-
-                s = 'visual selection'
-                if self.visual_lines:
-                    s += ', by lines'
-                msg(s)
+                self.use_visual()
                 return False
             else:
                 msg('movement key')
@@ -284,36 +279,43 @@ class Command:
         if text=='h':
             ed.cmd(cc.cCommand_KeyLeft)
             msg('left')
+            self.use_visual()
             return False
 
         if text=='j':
             ed.cmd(cc.cCommand_KeyDown)
             msg('down')
+            self.use_visual()
             return False
 
         if text=='k':
             ed.cmd(cc.cCommand_KeyUp)
             msg('up')
+            self.use_visual()
             return False
 
         if text=='l':
             ed.cmd(cc.cCommand_KeyRight)
             msg('right')
+            self.use_visual()
             return False
 
         if text in ['b', 'B']:
             ed.cmd(cc.cCommand_GotoWordPrev)
             msg('go to prev word')
+            self.use_visual()
             return False
 
         if text in ['w', 'W']:
             ed.cmd(cc.cCommand_GotoWordNext)
             msg('go to next word')
+            self.use_visual()
             return False
 
         if text in ['e', 'E']:
             goto_word_end()
             msg('go to word end')
+            self.use_visual()
             return False
 
         if text=='a':
@@ -348,6 +350,7 @@ class Command:
             x0, y0, x1, y1 = ed.get_carets()[0]
             goto_first_nonspace_char(y0)
             msg('go to 1st non-space char')
+            self.use_visual()
             return False
 
         if text=='-':
@@ -355,6 +358,7 @@ class Command:
             if y0>0:
                 goto_first_nonspace_char(y0-1)
                 msg('go to 1st non-space char, at prev line')
+            self.use_visual()
             return False
 
         if text=='+':
@@ -362,16 +366,19 @@ class Command:
             if y0<ed.get_line_count()-1:
                 goto_first_nonspace_char(y0+1)
                 msg('go to 1st non-space char, at next line')
+            self.use_visual()
             return False
 
         if text=='x':
             ed.cmd(cc.cCommand_KeyDelete)
             msg('delete char')
+            self.use_visual()
             return False
 
         if text=='X':
             ed.cmd(cc.cCommand_KeyBackspace)
             msg('delete char left')
+            self.use_visual()
             return False
 
         if text=='r':
@@ -403,6 +410,7 @@ class Command:
         if text=='D':
             ed.cmd(cc.cCommand_TextDeleteToLineEnd)
             msg('delete to end of line')
+            self.use_visual()
             return False
 
         if text=='C':
@@ -426,6 +434,7 @@ class Command:
             else:
                 self.prefix_d = True
                 msg('delete?')
+            self.use_visual()
             return False
 
         if text in ('f', 'F', 't', 'T'):
@@ -468,16 +477,19 @@ class Command:
 
             ed.set_caret(index, y0)
             msg('go to column '+str(index+1))
+            self.use_visual()
             return False
 
         if text==' ':
             ed.cmd(cc.cCommand_KeyRight)
             msg('move right')
+            self.use_visual()
             return False
 
         if text=='$':
             goto_after_line()
             msg('move to line end')
+            self.use_visual()
             return False
 
         if text=='/':
@@ -495,6 +507,7 @@ class Command:
                     msg('not found: '+s)
             else:
                 msg('Esc')
+            self.use_visual()
             return False
 
         if text=='?':
@@ -512,6 +525,7 @@ class Command:
                     msg('not found: '+s)
             else:
                 msg('Esc')
+            self.use_visual()
             return False
 
         if text in ('n', 'N'):
@@ -532,6 +546,7 @@ class Command:
                     msg('not found: '+s)
             else:
                 msg('search string not set')
+            self.use_visual()
             return False
 
         if text=='u':
@@ -562,6 +577,7 @@ class Command:
             ed.cmd(cc.cCommand_KeyRight)
             ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
             msg('paste, after caret')
+            self.use_visual()
             return False
 
         if text=='P':
@@ -570,6 +586,7 @@ class Command:
 
             ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
             msg('paste, before caret')
+            self.use_visual()
             return False
 
         if text=='~':
@@ -605,24 +622,28 @@ class Command:
                 msg('found next match')
             else:
                 msg('not found next match')
+            self.use_visual()
             return False
 
         if text=='H':
             ed.cmd(cc.cCommand_GotoScreenTop)
             msg('go to screen top')
+            self.use_visual()
             return False
 
         if text=='L':
             ed.cmd(cc.cCommand_GotoScreenBottom)
             msg('go to screen bottom')
+            self.use_visual()
             return False
 
         if text=='M':
             ed.cmd(cc.cCommand_GotoScreenCenter)
             msg('go to screen middle')
+            self.use_visual()
             return False
 
 
         #block all text in command mode
-        msg('key not handled')
+        msg('unknown command')
         return False
