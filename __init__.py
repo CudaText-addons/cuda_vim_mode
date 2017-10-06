@@ -113,7 +113,8 @@ class Command:
                 ck.VK_UP, ck.VK_DOWN,
                 ck.VK_PAGEUP, ck.VK_PAGEDOWN,
                 ck.VK_HOME, ck.VK_END,
-                ord('H'), ord('J'), ord('K'), ord('L')
+                ord('H'), ord('J'), ord('K'), ord('L'),
+                ord('B'), ord('W'), ord('E'),
                 ] and state=='':
             if self.visual:
                 xx, yy = self.visual_start
@@ -136,6 +137,12 @@ class Command:
                     ed.cmd(cc.cCommand_KeyHome)
                 elif key==ck.VK_END:
                     ed.cmd(cc.cCommand_KeyEnd)
+                elif key==ord('B'):
+                    ed.cmd(cc.cCommand_GotoWordPrev)
+                elif key==ord('W'):
+                    ed.cmd(cc.cCommand_GotoWordNext)
+                elif key==ord('E'):
+                    goto_word_end(False)
 
                 x0, y0, x1, y1 = ed.get_carets()[0]
 
@@ -294,17 +301,17 @@ class Command:
             msg('right')
             return False
 
-        if text in ['b', 'B']:
+        if text in ['b', 'B'] and not self.visual:
             ed.cmd(cc.cCommand_GotoWordPrev)
             msg('go to prev word')
             return False
 
-        if text in ['w', 'W']:
+        if text in ['w', 'W'] and not self.visual:
             ed.cmd(cc.cCommand_GotoWordNext)
             msg('go to next word')
             return False
 
-        if text in ['e', 'E']:
+        if text in ['e', 'E'] and not self.visual:
             goto_word_end()
             msg('go to word end')
             return False
