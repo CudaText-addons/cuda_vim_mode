@@ -145,3 +145,17 @@ def goto_next_word_match():
     ed.set_caret(x1, y1)
     return True
 
+
+def join_line_with_next():
+    x0, y0, x1, y1 = ed.get_carets()[0]
+    if y0>= ed.get_line_count()-1:
+        return
+
+    s1 = ed.get_text_line(y0)
+    s2 = ed.get_text_line(y0+1)
+    sep = ' ' if bool(s1) and bool(s2) else ''
+
+    ed.replace(
+        0, y0,
+        len(s2), y0+1,
+        s1 + sep + s2) #space like in Vim

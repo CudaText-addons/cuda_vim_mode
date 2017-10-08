@@ -605,17 +605,7 @@ class Command:
             return False
 
         if text=='J':
-            goto_after_line()
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            if y0>= ed.get_line_count()-1: return
-
-            empty = ed.get_text_line(y0)=='' or ed.get_text_line(y0+1)==''
-            if not empty:
-                self.active = False #for macOS
-                ed.cmd(cc.cCommand_TextInsert, ' ')
-                self.active = True
-
-            ed.cmd(cc.cCommand_KeyDelete)
+            join_line_with_next()
             msg('join with next line')
             return False
 
