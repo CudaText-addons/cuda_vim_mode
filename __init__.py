@@ -611,7 +611,9 @@ class Command:
 
             empty = ed.get_text_line(y0)=='' or ed.get_text_line(y0+1)==''
             if not empty:
+                self.active = False #for macOS
                 ed.cmd(cc.cCommand_TextInsert, ' ')
+                self.active = True
 
             ed.cmd(cc.cCommand_KeyDelete)
             msg('join with next line')

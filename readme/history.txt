@@ -1,4 +1,7 @@
 
+2017.10.08
+- fixed: command J on macOS didnt work
+
 2017.10.06.4
 + reworked visual mode with all movement keys
 
