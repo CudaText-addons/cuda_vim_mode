@@ -157,5 +157,6 @@ def join_line_with_next():
 
     ed.replace(
         0, y0,
-        len(s2), y0+1,
-        s1 + sep + s2) #space like in Vim
+        0, y0+2,
+        s1 + sep + s2 + '\n')
+
