@@ -635,6 +635,14 @@ class Command:
             self.use_visual()
             return False
 
+        if text=='S':
+            x0, y0, x1, y1 = ed.get_carets()[0]
+            ed.set_caret(0, y0)
+            ed.set_text_line(y0, '')
+            self.insert = True
+            self.update_caret()
+            msg('substitute entire line')
+            return False
 
         #block all text in command mode
         msg('unknown command')

@@ -77,10 +77,12 @@ d) Vim command mode supported keys:
   ~ - invert case of selection (if selection) or one char
   # - go to next occurence of current word (looping from begin)
   
-  J - join current line with the next one
   H - go to top line on screen
   M - go to middle line on screen
   L - go to bottom line on screen
+
+  J - join current line with the next one
+  S - substitute line - delete line, go to insertion mode
     
 
 author: Alexey (CudaText)
