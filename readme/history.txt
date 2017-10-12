@@ -1,6 +1,7 @@
 
 2017.10.12
 + added: command S
++ added: command ZZ
 
 2017.10.08
 - fixed: command J on macOS didnt work

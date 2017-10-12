@@ -22,6 +22,7 @@ class Command:
     prefix_f = False
     prefix_f_fw = True
     prefix_f_before = False
+    prefix_Z = False
     number = ''
     caret_normal = 2
     find_str = ''
@@ -115,6 +116,7 @@ class Command:
                 self.prefix_d = False
                 self.prefix_g = False
                 self.prefix_f = False
+                self.prefix_Z = False
                 msg('Esc')
                 return
 
@@ -643,6 +645,17 @@ class Command:
             self.update_caret()
             msg('substitute entire line')
             return False
+
+        if text=='Z':
+            if self.prefix_Z:
+                msg('save+exit')
+                ed.cmd(cc.cmd_FileSave)
+                ed.cmd(cc.cmd_FileExit)
+                return False
+            self.prefix_Z = True
+            msg('save+exit?')
+            return False
+
 
         #block all text in command mode
         msg('unknown command')

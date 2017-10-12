@@ -83,6 +83,7 @@ d) Vim command mode supported keys:
 
   J - join current line with the next one
   S - substitute line - delete line, go to insertion mode
+  ZZ - save current file + exit
     
 
 author: Alexey (CudaText)
