@@ -24,7 +24,7 @@ class Command:
     prefix_f_before = False
     prefix_Z = False
     number = ''
-    caret_normal = 2
+    caret_normal = (2, -100, False)
     find_str = ''
     find_fw = True
 
@@ -41,17 +41,17 @@ class Command:
         if self.insert or not self.active:
             value = self.caret_normal
         elif self.visual:
-            value = 25
+            value = (-100, -50, False)
         else:
-            value = 26
-        ed.set_prop(PROP_CARET_SHAPE, value)
+            value = (-100, -100, True)
+        ed.set_prop(PROP_CARET_VIEW, value)
 
 
     def toggle_active(self, insert=False, save_op=True):
         self.insert = insert
         self.active = not self.active
         if self.active:
-            self.caret_normal = ed.get_prop(PROP_CARET_SHAPE)
+            self.caret_normal = ed.get_prop(PROP_CARET_VIEW)
             msg('plugin activated')
         else:
             msg('plugin deactivated')

@@ -1,4 +1,7 @@
 
+2018.10.24
+- avoid deleted CudaText API (for caret shape)
+
 2017.10.12
 + added: command S
 + added: command ZZ
