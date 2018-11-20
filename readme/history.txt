@@ -1,5 +1,6 @@
 
 2018.11.20
++ added: command "." repeats last entered command
 + added: statusbar colored indicator of Vim mode (Cmd=teal, Visual=blue, Insert=red)
 
 2018.10.24

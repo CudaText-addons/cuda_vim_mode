@@ -76,6 +76,7 @@ d) Vim command mode supported keys:
   u - undo
   ~ - invert case of selection (if selection) or one char
   # - go to next occurence of current word (looping from begin)
+  . - repeat last command (entered in command mode)
   
   H - go to top line on screen
   M - go to middle line on screen

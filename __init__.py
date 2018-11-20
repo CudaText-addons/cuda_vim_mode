@@ -29,6 +29,8 @@ class Command:
     caret_normal = (2, -100, False)
     find_str = ''
     find_fw = True
+    saved_prefix = ''
+    saved_text = ''        
 
 
     def on_start(self, ed_self):
@@ -189,7 +191,9 @@ class Command:
 
     def handle(self, prefix, text):
         """Command processor"""
-        
+
+        self.saved_prefix = prefix
+        self.saved_text = text        
         x0, y0, x1, y1 = ed.get_carets()[0]
         
         if prefix=='r':
@@ -700,6 +704,9 @@ class Command:
             self.use_visual()
             return False
 
+        if text=='.':
+            self.handle(self.saved_prefix, self.saved_text)
+            return False
 
         if text=='Z':
             if self.prefix_Z:
