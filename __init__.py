@@ -365,9 +365,8 @@ class Command:
 
 
         if text=='a':
-            x, y, x1, y1 = ed.get_carets()[0]
-            s = ed.get_text_line(y)
-            if x<len(s):
+            s = ed.get_text_line(y0)
+            if x0<len(s):
                 ed.cmd(cc.cCommand_KeyRight)
             self.insert = True
             self.update_caret()
