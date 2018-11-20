@@ -369,6 +369,27 @@ class Command:
                 self.use_visual()
                 return
 
+            if text in ('n', 'N'):
+                s = self.find_str
+                if s:
+                    #use xor to invert value
+                    is_next = self.find_fw ^ (text=='N')
+                    if is_next:
+                        res = find_text_pos(x0+1, y0, s)
+                    else:
+                        res = find_text_pos_backward(x0, y0, s)
+                    if res:
+                        x1, y1 = res
+                        ed.set_caret(x1, y1)
+                        msg('found (%s): '%('next' if is_next else 'back') + s)
+                    else:
+                        msg('not found: '+s)
+                else:
+                    msg('search string not set')
+                self.use_visual()
+                return
+            
+
 
     def on_insert(self, ed_self, text):
         if not self.active:
@@ -442,6 +463,7 @@ class Command:
         if text in ('h', 'j', 'k', 'l', 
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
+                    'n', 'N',
                     'D', 'C',
                     '^', '-', '+', ' ', '$',
                     ):
@@ -582,26 +604,6 @@ class Command:
             self.use_visual()
             return False
 
-        if text in ('n', 'N'):
-            s = self.find_str
-            if s:
-                x0, y0, x1, y1 = ed.get_carets()[0]
-                #use xor to invert value
-                is_next = self.find_fw ^ (text=='N')
-                if is_next:
-                    res = find_text_pos(x0+1, y0, s)
-                else:
-                    res = find_text_pos_backward(x0, y0, s)
-                if res:
-                    x1, y1 = res
-                    ed.set_caret(x1, y1)
-                    msg('found (%s): '%('next' if is_next else 'back') + s)
-                else:
-                    msg('not found: '+s)
-            else:
-                msg('search string not set')
-            self.use_visual()
-            return False
 
         if text=='u':
             ed.cmd(cc.cCommand_Undo)
