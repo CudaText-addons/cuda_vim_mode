@@ -4,6 +4,8 @@ import cudatext_keys as ck
 from .text_func import *
 
 INI = 'cuda_vim_mode.ini'
+ST_TAG = 21
+ST_SIZE = 90
 
 def msg(s):
     msg_status('[Vim] '+s)
@@ -37,6 +39,16 @@ class Command:
             self.toggle_active(True, False)
 
 
+    def get_status_info(self):
+    
+        if self.insert:
+            return ('Insert', 0xFF)
+        elif self.visual:
+            return ('Visual', 0x800000 if self.visual_lines else 0x800080 )
+        else:
+            return ('Command', 0x808000)
+ 
+
     def update_caret(self):
         if self.insert or not self.active:
             value = self.caret_normal
@@ -45,6 +57,17 @@ class Command:
         else:
             value = (-100, -100, True)
         ed.set_prop(PROP_CARET_VIEW, value)
+        
+        if self.active:
+            info, color = self.get_status_info()
+            statusbar_proc('main', STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_SIZE, value=ST_SIZE, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_ALIGN, value='C', tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_TEXT, value=info, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_BACK, value=color, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF, tag=ST_TAG)
+        else:
+            statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
 
 
     def toggle_active(self, insert=False, save_op=True):

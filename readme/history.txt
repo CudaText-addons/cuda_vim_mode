@@ -1,4 +1,7 @@
 
+2018.11.20
++ added: statusbar colored indicator of Vim mode (Cmd=teal, Visual=blue, Insert=red)
+
 2018.10.24
 - avoid deleted CudaText API (for caret shape)
 
