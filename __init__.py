@@ -270,7 +270,24 @@ class Command:
                 msg('right')
                 self.use_visual()
                 return
-            
+
+            if text in ('b', 'B'):            
+                ed.cmd(cc.cCommand_GotoWordPrev)
+                msg('go to prev word')
+                self.use_visual()
+                return
+                
+            if text in ['w', 'W']:
+                ed.cmd(cc.cCommand_GotoWordNext)
+                msg('go to next word')
+                self.use_visual()
+                return
+                
+            if text in ['e', 'E']:
+                goto_word_end()
+                msg('go to word end')
+                self.use_visual()
+                return
 
 
     def on_insert(self, ed_self, text):
@@ -342,39 +359,10 @@ class Command:
             return False
 
 
-        if text=='h':
-            self.handle('', 'h')
+        if text in ('h', 'j', 'k', 'l', 'b', 'B', 'w', 'W', 'e', 'E'):
+            self.handle('', text)
             return False
 
-        if text=='j':
-            self.handle('', 'j')
-            return False
-
-        if text=='k':
-            self.handle('', 'k')
-            return False
-
-        if text=='l':
-            self.handle('', 'l')
-            return False
-
-        if text in ['b', 'B']:
-            ed.cmd(cc.cCommand_GotoWordPrev)
-            msg('go to prev word')
-            self.use_visual()
-            return False
-
-        if text in ['w', 'W']:
-            ed.cmd(cc.cCommand_GotoWordNext)
-            msg('go to next word')
-            self.use_visual()
-            return False
-
-        if text in ['e', 'E']:
-            goto_word_end()
-            msg('go to word end')
-            self.use_visual()
-            return False
 
         if text=='a':
             x, y, x1, y1 = ed.get_carets()[0]
