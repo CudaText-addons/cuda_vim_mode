@@ -187,6 +187,17 @@ class Command:
                 return
 
 
+    def handle(self, prefix, text):
+        """Command processor"""
+        
+        x0, y0, x1, y1 = ed.get_carets()[0]
+        
+        if prefix=='r':
+            ed.replace(x0, y0, x0+len(text), y0, text)
+            msg('replace char to: '+text)
+            return
+        
+
     def on_insert(self, ed_self, text):
         if not self.active:
             return
@@ -196,11 +207,7 @@ class Command:
 
         if self.replace_char:
             self.replace_char = False
-
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            ed.replace(x0, y0, x0+len(text), y0, text)
-
-            msg('replace char to: '+text)
+            self.handle('r', text)
             return False
 
         if self.prefix_f:
