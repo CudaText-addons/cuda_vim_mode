@@ -250,21 +250,25 @@ class Command:
             if text=='h':            
                 ed.cmd(cc.cCommand_KeyLeft)
                 msg('left')
+                self.use_visual()
                 return
                 
             if text=='j':
                 ed.cmd(cc.cCommand_KeyDown)
                 msg('down')
+                self.use_visual()
                 return
             
             if text=='k':
                 ed.cmd(cc.cCommand_KeyUp)
                 msg('up')
+                self.use_visual()
                 return
             
             if text=='l':
                 ed.cmd(cc.cCommand_KeyRight)
                 msg('right')
+                self.use_visual()
                 return
             
 
@@ -340,22 +344,18 @@ class Command:
 
         if text=='h':
             self.handle('', 'h')
-            self.use_visual()
             return False
 
         if text=='j':
             self.handle('', 'j')
-            self.use_visual()
             return False
 
         if text=='k':
             self.handle('', 'k')
-            self.use_visual()
             return False
 
         if text=='l':
             self.handle('', 'l')
-            self.use_visual()
             return False
 
         if text in ['b', 'B']:
