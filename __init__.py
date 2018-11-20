@@ -553,7 +553,6 @@ class Command:
             if s:
                 self.find_str = s
                 self.find_fw = True
-                x0, y0, x1, y1 = ed.get_carets()[0]
                 res = find_text_pos(x0+1, y0, s)
                 if res:
                     x1, y1 = res
@@ -571,7 +570,6 @@ class Command:
             if s:
                 self.find_str = s
                 self.find_fw = False
-                x0, y0, x1, y1 = ed.get_carets()[0]
                 res = find_text_pos_backward(x0, y0, s)
                 if res:
                     x1, y1 = res
