@@ -458,6 +458,32 @@ class Command:
                 self.use_visual()
                 return
 
+            if text=='H':
+                ed.cmd(cc.cCommand_GotoScreenTop)
+                msg('go to screen top')
+                self.use_visual()
+                return
+
+            if text=='L':
+                ed.cmd(cc.cCommand_GotoScreenBottom)
+                msg('go to screen bottom')
+                self.use_visual()
+                return
+
+            if text=='M':
+                ed.cmd(cc.cCommand_GotoScreenCenter)
+                msg('go to screen middle')
+                self.use_visual()
+                return
+
+            if text=='S':
+                ed.set_caret(0, y0)
+                ed.set_text_line(y0, '')
+                self.insert = True
+                self.update_caret()
+                msg('substitute entire line')
+                return
+
 
 
     def on_insert(self, ed_self, text):
@@ -534,6 +560,7 @@ class Command:
                     'x', 'X', 'o', 'O',
                     'n', 'N', 'u', 'y', 'Y', 'p', 'P',
                     'D', 'C', 'J',
+                    'H', 'L', 'M', 'S',
                     '^', '-', '+', ' ', '$', '~', '#',
                     ):
             self.handle('', text)
@@ -673,33 +700,6 @@ class Command:
             self.use_visual()
             return False
 
-
-        if text=='H':
-            ed.cmd(cc.cCommand_GotoScreenTop)
-            msg('go to screen top')
-            self.use_visual()
-            return False
-
-        if text=='L':
-            ed.cmd(cc.cCommand_GotoScreenBottom)
-            msg('go to screen bottom')
-            self.use_visual()
-            return False
-
-        if text=='M':
-            ed.cmd(cc.cCommand_GotoScreenCenter)
-            msg('go to screen middle')
-            self.use_visual()
-            return False
-
-        if text=='S':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            ed.set_caret(0, y0)
-            ed.set_text_line(y0, '')
-            self.insert = True
-            self.update_caret()
-            msg('substitute entire line')
-            return False
 
         if text=='Z':
             if self.prefix_Z:
