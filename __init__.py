@@ -205,8 +205,12 @@ class Command:
             else:
                 msg('not found in line: '+text)
             return
+            
+        if prefix=='g':
+            ed.cmd(cc.cCommand_GotoTextBegin)
+            msg('go to text begin')
+            return
 
-        
 
     def on_insert(self, ed_self, text):
         if not self.active:
@@ -243,8 +247,7 @@ class Command:
                 msg('go to?')
             else:
                 self.prefix_g = False
-                ed.cmd(cc.cCommand_GotoTextBegin)
-                msg('go to text begin')
+                self.handle('g', '')
             return False
         else:
             self.prefix_g = False
@@ -259,7 +262,6 @@ class Command:
                 except:
                     index = -1
                 if 0<=index<ed.get_line_count():
-                    x0, y0, x1, y1 = ed.get_carets()[0]
                     ed.set_caret(x0, index)
                     ed.cmd(cc.cCommand_ScrollToCaretTop)
                     msg('go to line '+self.number)
