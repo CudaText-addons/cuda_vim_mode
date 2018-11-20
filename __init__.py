@@ -194,8 +194,18 @@ class Command:
         
         if prefix=='r':
             ed.replace(x0, y0, x0+len(text), y0, text)
-            msg('replace char to: '+text)
+            msg('replaced char to: '+text)
             return
+
+        if prefix=='f':        
+            if find_text_in_line(x0, y0, text,
+                    self.prefix_f_fw,
+                    self.prefix_f_before):
+                msg('found: '+text)
+            else:
+                msg('not found in line: '+text)
+            return
+
         
 
     def on_insert(self, ed_self, text):
@@ -212,23 +222,16 @@ class Command:
 
         if self.prefix_f:
             self.prefix_f = False
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            if find_text_in_line(x0, y0, text,
-                    self.prefix_f_fw,
-                    self.prefix_f_before):
-                msg('found: '+text)
-            else:
-                msg('not found in line: '+text)
+            self.handle('f', text)
             return False
 
-
+        x0, y0, x1, y1 = ed.get_carets()[0]
         if text in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
             use_num = True
             if text=='0' and self.number=='':
                 use_num = False
-                x0, y0, x1, y1 = ed.get_carets()[0]
                 ed.set_caret(0, y0)
-                msg('move to line begin')
+                msg('moved to line begin')
             if use_num:
                 self.number += text
                 msg('number: '+self.number)
