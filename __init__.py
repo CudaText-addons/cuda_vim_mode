@@ -354,6 +354,7 @@ class Command:
                     self.update_caret()
                     ed.cmd(cc.cCommand_ClipboardCut)
                     msg('cut selection')
+                    self.use_visual()
                 return
 
 
@@ -516,8 +517,6 @@ class Command:
 
 
         if text=='|':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-
             if self.number=='':
                 index = 0
             else:
