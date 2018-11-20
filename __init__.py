@@ -345,7 +345,10 @@ class Command:
             return False
 
         if text=='a':
-            ed.cmd(cc.cCommand_KeyRight)
+            x, y, x1, y1 = ed.get_carets()[0]
+            s = ed.get_text_line(y)
+            if x<len(s):
+                ed.cmd(cc.cCommand_KeyRight)
             self.insert = True
             self.update_caret()
             msg('insertion mode, after current char')
