@@ -335,6 +335,19 @@ class Command:
                 msg('insert line below, insertion mode')
                 return
 
+            if text=='D':
+                ed.cmd(cc.cCommand_TextDeleteToLineEnd)
+                msg('delete to end of line')
+                self.use_visual()
+                return
+
+            if text=='C':
+                ed.cmd(cc.cCommand_TextDeleteToLineEnd)
+                msg('change to end of line')
+                self.insert = True
+                self.update_caret()
+                return
+
 
 
     def on_insert(self, ed_self, text):
@@ -409,6 +422,7 @@ class Command:
         if text in ('h', 'j', 'k', 'l', 
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
+                    'D', 'C',
                     '^', '-', '+',
                     ):
             self.handle('', text)
@@ -457,19 +471,6 @@ class Command:
             msg('replace mode for current line')
             return False
 
-
-        if text=='D':
-            ed.cmd(cc.cCommand_TextDeleteToLineEnd)
-            msg('delete to end of line')
-            self.use_visual()
-            return False
-
-        if text=='C':
-            ed.cmd(cc.cCommand_TextDeleteToLineEnd)
-            msg('change to end of line')
-            self.insert = True
-            self.update_caret()
-            return False
 
         if text=='c':
             self.prefix_c = True
