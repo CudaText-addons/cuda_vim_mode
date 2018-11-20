@@ -357,6 +357,17 @@ class Command:
                     self.use_visual()
                 return
 
+            if text==' ':
+                ed.cmd(cc.cCommand_KeyRight)
+                msg('move right')
+                self.use_visual()
+                return
+
+            if text=='$':
+                goto_after_line()
+                msg('move to line end')
+                self.use_visual()
+                return
 
 
     def on_insert(self, ed_self, text):
@@ -432,7 +443,7 @@ class Command:
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
                     'D', 'C',
-                    '^', '-', '+',
+                    '^', '-', '+', ' ', '$',
                     ):
             self.handle('', text)
             return False
@@ -536,17 +547,6 @@ class Command:
             self.use_visual()
             return False
 
-        if text==' ':
-            ed.cmd(cc.cCommand_KeyRight)
-            msg('move right')
-            self.use_visual()
-            return False
-
-        if text=='$':
-            goto_after_line()
-            msg('move to line end')
-            self.use_visual()
-            return False
 
         if text=='/':
             s = dlg_input('Search forward:', '')
