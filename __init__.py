@@ -389,6 +389,28 @@ class Command:
                 self.use_visual()
                 return
             
+            
+            if text=='u':
+                ed.cmd(cc.cCommand_Undo)
+                msg('undo')
+                return
+
+            if text=='y':
+                self.visual = False
+                self.update_caret()
+
+                ed.cmd(cc.cCommand_ClipboardCopy)
+                msg('copy/yank')
+                return
+
+            if text=='Y':
+                self.visual = False
+                self.update_caret()
+
+                ed.cmd(cc.cmd_CopyLine)
+                msg('copy/yank entire line')
+                return
+            
 
 
     def on_insert(self, ed_self, text):
@@ -463,7 +485,7 @@ class Command:
         if text in ('h', 'j', 'k', 'l', 
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
-                    'n', 'N',
+                    'n', 'N', 'u', 'y', 'Y',
                     'D', 'C',
                     '^', '-', '+', ' ', '$',
                     ):
@@ -604,27 +626,6 @@ class Command:
             self.use_visual()
             return False
 
-
-        if text=='u':
-            ed.cmd(cc.cCommand_Undo)
-            msg('undo')
-            return False
-
-        if text=='y':
-            self.visual = False
-            self.update_caret()
-
-            ed.cmd(cc.cCommand_ClipboardCopy)
-            msg('copy/yank')
-            return False
-
-        if text=='Y':
-            self.visual = False
-            self.update_caret()
-
-            ed.cmd(cc.cmd_CopyLine)
-            msg('copy/yank entire line')
-            return False
 
         if text=='p':
             self.visual = False
