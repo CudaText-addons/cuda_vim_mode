@@ -30,7 +30,7 @@ class Command:
     find_str = ''
     find_fw = True
     saved_prefix = ''
-    saved_text = ''        
+    saved_text = ''
 
 
     def on_start(self, ed_self):
@@ -42,14 +42,14 @@ class Command:
 
 
     def get_status_info(self):
-    
+
         if self.insert:
             return ('Insert', 0x0000B0)
         elif self.visual:
             return ('Visual', 0x800000 if self.visual_lines else 0x800080 )
         else:
             return ('Command', 0x808000)
- 
+
 
     def update_caret(self):
         if self.insert or not self.active:
@@ -59,7 +59,7 @@ class Command:
         else:
             value = (-100, -100, True)
         ed.set_prop(PROP_CARET_VIEW, value)
-        
+
         info, color = self.get_status_info()
         if self.active:
             statusbar_proc('main', STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
@@ -68,7 +68,7 @@ class Command:
         else:
             statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
 
-        for i in range(statusbar_proc('main', STATUSBAR_GET_COUNT)):            
+        for i in range(statusbar_proc('main', STATUSBAR_GET_COUNT)):
             statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_BACK, value=color if self.active else COLOR_NONE, index=i)
             statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF if self.active else COLOR_NONE, index=i)
 
@@ -193,15 +193,15 @@ class Command:
         """Command processor"""
 
         self.saved_prefix = prefix
-        self.saved_text = text        
+        self.saved_text = text
         x0, y0, x1, y1 = ed.get_carets()[0]
-        
+
         if prefix=='r':
             ed.replace(x0, y0, x0+len(text), y0, text)
             msg('replaced char to: '+text)
             return
 
-        if prefix=='f':        
+        if prefix=='f':
             if find_text_in_line(x0, y0, text,
                     self.prefix_f_fw,
                     self.prefix_f_before):
@@ -209,12 +209,12 @@ class Command:
             else:
                 msg('not found in line: '+text)
             return
-            
+
         if prefix=='g':
             ed.cmd(cc.cCommand_GotoTextBegin)
             msg('go to text begin')
             return
-            
+
         if prefix=='d':
             if text=='d':
                 ed.cmd(cc.cCommand_TextDeleteLine)
@@ -251,42 +251,42 @@ class Command:
             return
 
         if prefix=='':
-            if text=='h':            
+            if text=='h':
                 ed.cmd(cc.cCommand_KeyLeft)
                 msg('left')
                 self.use_visual()
                 return
-                
+
             if text=='j':
                 ed.cmd(cc.cCommand_KeyDown)
                 msg('down')
                 self.use_visual()
                 return
-            
+
             if text=='k':
                 ed.cmd(cc.cCommand_KeyUp)
                 msg('up')
                 self.use_visual()
                 return
-            
+
             if text=='l':
                 ed.cmd(cc.cCommand_KeyRight)
                 msg('right')
                 self.use_visual()
                 return
 
-            if text in ('b', 'B'):            
+            if text in ('b', 'B'):
                 ed.cmd(cc.cCommand_GotoWordPrev)
                 msg('go to prev word')
                 self.use_visual()
                 return
-                
+
             if text in ['w', 'W']:
                 ed.cmd(cc.cCommand_GotoWordNext)
                 msg('go to next word')
                 self.use_visual()
                 return
-                
+
             if text in ['e', 'E']:
                 goto_word_end()
                 msg('go to word end')
@@ -392,8 +392,8 @@ class Command:
                     msg('search string not set')
                 self.use_visual()
                 return
-            
-            
+
+
             if text=='u':
                 ed.cmd(cc.cCommand_Undo)
                 msg('undo')
@@ -414,7 +414,7 @@ class Command:
                 ed.cmd(cc.cmd_CopyLine)
                 msg('copy/yank entire line')
                 return
-            
+
             if text=='p':
                 self.visual = False
                 self.update_caret()
@@ -559,8 +559,8 @@ class Command:
             return False
 
 
-        if text in ('h', 'j', 'k', 'l', 
-                    'b', 'B', 'w', 'W', 'e', 'E', 
+        if text in ('h', 'j', 'k', 'l',
+                    'b', 'B', 'w', 'W', 'e', 'E',
                     'x', 'X', 'o', 'O',
                     'n', 'N', 'u', 'y', 'Y', 'p', 'P',
                     'D', 'C', 'J',
