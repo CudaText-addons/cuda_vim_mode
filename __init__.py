@@ -348,6 +348,14 @@ class Command:
                 self.update_caret()
                 return
 
+            if text=='d':
+                if ed.get_text_sel():
+                    self.visual = False
+                    self.update_caret()
+                    ed.cmd(cc.cCommand_ClipboardCut)
+                    msg('cut selection')
+                return
+
 
 
     def on_insert(self, ed_self, text):
@@ -479,10 +487,7 @@ class Command:
 
         if text=='d':
             if ed.get_text_sel():
-                self.visual = False
-                self.update_caret()
-                ed.cmd(cc.cCommand_ClipboardCut)
-                msg('cut selection')
+                self.handle('', text)
             else:
                 self.prefix_d = True
                 msg('delete?')
