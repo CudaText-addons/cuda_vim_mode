@@ -246,6 +246,28 @@ class Command:
                     msg('Esc')
             return
 
+        if prefix=='':
+            if text=='h':            
+                ed.cmd(cc.cCommand_KeyLeft)
+                msg('left')
+                return
+                
+            if text=='j':
+                ed.cmd(cc.cCommand_KeyDown)
+                msg('down')
+                return
+            
+            if text=='k':
+                ed.cmd(cc.cCommand_KeyUp)
+                msg('up')
+                return
+            
+            if text=='l':
+                ed.cmd(cc.cCommand_KeyRight)
+                msg('right')
+                return
+            
+
 
     def on_insert(self, ed_self, text):
         if not self.active:
@@ -317,26 +339,22 @@ class Command:
 
 
         if text=='h':
-            ed.cmd(cc.cCommand_KeyLeft)
-            msg('left')
+            self.handle('', 'h')
             self.use_visual()
             return False
 
         if text=='j':
-            ed.cmd(cc.cCommand_KeyDown)
-            msg('down')
+            self.handle('', 'j')
             self.use_visual()
             return False
 
         if text=='k':
-            ed.cmd(cc.cCommand_KeyUp)
-            msg('up')
+            self.handle('', 'k')
             self.use_visual()
             return False
 
         if text=='l':
-            ed.cmd(cc.cCommand_KeyRight)
-            msg('right')
+            self.handle('', 'l')
             self.use_visual()
             return False
 
