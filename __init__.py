@@ -419,7 +419,7 @@ class Command:
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
                 msg('paste, after caret')
                 self.use_visual()
-                return False
+                return
 
             if text=='P':
                 self.visual = False
@@ -428,7 +428,35 @@ class Command:
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
                 msg('paste, before caret')
                 self.use_visual()
-                return False
+                return
+
+            if text=='~':
+                self.visual = False
+                self.update_caret()
+
+                if ed.get_text_sel():
+                    ed.cmd(cc.cCommand_TextCaseInvert)
+                    msg('invert case of selection')
+                else:
+                    ed.cmd(cc.cCommand_KeyRight_Sel)
+                    ed.cmd(cc.cCommand_TextCaseInvert)
+                    msg('invert case of char')
+
+                ed.cmd(cc.cCommand_SelectNone)
+                return
+
+            if text=='J':
+                join_line_with_next()
+                msg('join with next line')
+                return
+
+            if text=='#':
+                if goto_next_word_match():
+                    msg('found next match')
+                else:
+                    msg('not found next match')
+                self.use_visual()
+                return
 
 
 
@@ -505,8 +533,8 @@ class Command:
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
                     'n', 'N', 'u', 'y', 'Y', 'p', 'P',
-                    'D', 'C',
-                    '^', '-', '+', ' ', '$',
+                    'D', 'C', 'J',
+                    '^', '-', '+', ' ', '$', '~', '#',
                     ):
             self.handle('', text)
             return False
@@ -645,34 +673,6 @@ class Command:
             self.use_visual()
             return False
 
-
-        if text=='~':
-            self.visual = False
-            self.update_caret()
-
-            if ed.get_text_sel():
-                ed.cmd(cc.cCommand_TextCaseInvert)
-                msg('invert case of selection')
-            else:
-                ed.cmd(cc.cCommand_KeyRight_Sel)
-                ed.cmd(cc.cCommand_TextCaseInvert)
-                msg('invert case of char')
-
-            ed.cmd(cc.cCommand_SelectNone)
-            return False
-
-        if text=='J':
-            join_line_with_next()
-            msg('join with next line')
-            return False
-
-        if text=='#':
-            if goto_next_word_match():
-                msg('found next match')
-            else:
-                msg('not found next match')
-            self.use_visual()
-            return False
 
         if text=='H':
             ed.cmd(cc.cCommand_GotoScreenTop)
