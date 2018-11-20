@@ -411,6 +411,25 @@ class Command:
                 msg('copy/yank entire line')
                 return
             
+            if text=='p':
+                self.visual = False
+                self.update_caret()
+
+                ed.cmd(cc.cCommand_KeyRight)
+                ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
+                msg('paste, after caret')
+                self.use_visual()
+                return False
+
+            if text=='P':
+                self.visual = False
+                self.update_caret()
+
+                ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
+                msg('paste, before caret')
+                self.use_visual()
+                return False
+
 
 
     def on_insert(self, ed_self, text):
@@ -485,7 +504,7 @@ class Command:
         if text in ('h', 'j', 'k', 'l', 
                     'b', 'B', 'w', 'W', 'e', 'E', 
                     'x', 'X', 'o', 'O',
-                    'n', 'N', 'u', 'y', 'Y',
+                    'n', 'N', 'u', 'y', 'Y', 'p', 'P',
                     'D', 'C',
                     '^', '-', '+', ' ', '$',
                     ):
@@ -626,25 +645,6 @@ class Command:
             self.use_visual()
             return False
 
-
-        if text=='p':
-            self.visual = False
-            self.update_caret()
-
-            ed.cmd(cc.cCommand_KeyRight)
-            ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
-            msg('paste, after caret')
-            self.use_visual()
-            return False
-
-        if text=='P':
-            self.visual = False
-            self.update_caret()
-
-            ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
-            msg('paste, before caret')
-            self.use_visual()
-            return False
 
         if text=='~':
             self.visual = False
