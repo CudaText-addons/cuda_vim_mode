@@ -210,6 +210,41 @@ class Command:
             ed.cmd(cc.cCommand_GotoTextBegin)
             msg('go to text begin')
             return
+            
+        if prefix=='d':
+            if text=='d':
+                ed.cmd(cc.cCommand_TextDeleteLine)
+                msg('delete line')
+
+            elif text=='w':
+                ed.cmd(cc.cCommand_TextDeleteWordNext)
+                msg('delete to word end')
+
+            elif text=='e':
+                goto_word_end(True)
+                msg('delete to word end')
+
+            elif text=='b':
+                ed.cmd(cc.cCommand_TextDeleteWordPrev)
+                msg('delete to word begin')
+
+            elif text=='L':
+                ed.cmd(cc.cCommand_TextDeleteToTextEnd)
+                msg('delete to text end')
+
+            elif text=='/':
+                s = dlg_input('Delete to text:', '')
+                if s:
+                    res = find_text_pos(x0, y0, s)
+                    if res:
+                        x1, y1 = res
+                        ed.delete(x0, y0, x1, y1)
+                        msg('delete to text: '+s)
+                    else:
+                        msg('not found: '+s)
+                else:
+                    msg('Esc')
+            return
 
 
     def on_insert(self, ed_self, text):
@@ -272,40 +307,7 @@ class Command:
 
 
         if self.prefix_c or self.prefix_d:
-            if text=='d':
-                ed.cmd(cc.cCommand_TextDeleteLine)
-                msg('delete line')
-
-            elif text=='w':
-                ed.cmd(cc.cCommand_TextDeleteWordNext)
-                msg('delete to word end')
-
-            elif text=='e':
-                goto_word_end(True)
-                msg('delete to word end')
-
-            elif text=='b':
-                ed.cmd(cc.cCommand_TextDeleteWordPrev)
-                msg('delete to word begin')
-
-            elif text=='L':
-                ed.cmd(cc.cCommand_TextDeleteToTextEnd)
-                msg('delete to text end')
-
-            elif text=='/':
-                s = dlg_input('Delete to text:', '')
-                if s:
-                    x0, y0, x1, y1 = ed.get_carets()[0]
-                    res = find_text_pos(x0, y0, s)
-                    if res:
-                        x1, y1 = res
-                        ed.delete(x0, y0, x1, y1)
-                        msg('delete to text: '+s)
-                    else:
-                        msg('not found: '+s)
-                else:
-                    msg('Esc')
-
+            self.handle('d', text)
             if self.prefix_c:
                 self.insert = True
                 self.update_caret()
