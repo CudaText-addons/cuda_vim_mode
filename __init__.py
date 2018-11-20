@@ -42,7 +42,7 @@ class Command:
     def get_status_info(self):
     
         if self.insert:
-            return ('Insert', 0xFF)
+            return ('Insert', 0x0000B0)
         elif self.visual:
             return ('Visual', 0x800000 if self.visual_lines else 0x800080 )
         else:
@@ -58,16 +58,17 @@ class Command:
             value = (-100, -100, True)
         ed.set_prop(PROP_CARET_VIEW, value)
         
+        info, color = self.get_status_info()
         if self.active:
-            info, color = self.get_status_info()
             statusbar_proc('main', STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_SIZE, value=ST_SIZE, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_ALIGN, value='C', tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_TEXT, value=info, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_BACK, value=color, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_AUTOSIZE, value=True, tag=ST_TAG)
+            statusbar_proc('main', STATUSBAR_SET_CELL_TEXT, value='--'+info+'--', tag=ST_TAG)
         else:
             statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
+
+        for i in range(statusbar_proc('main', STATUSBAR_GET_COUNT)):            
+            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_BACK, value=color if self.active else COLOR_NONE, index=i)
+            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF if self.active else COLOR_NONE, index=i)
 
 
     def toggle_active(self, insert=False, save_op=True):
