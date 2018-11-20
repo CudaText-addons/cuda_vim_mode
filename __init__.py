@@ -4,8 +4,7 @@ import cudatext_keys as ck
 from .text_func import *
 
 INI = 'cuda_vim_mode.ini'
-ST_TAG = 21
-ST_SIZE = 90
+ST_TAG = 21 #tag value must be >20
 
 def msg(s):
     msg_status('[Vim] '+s)
