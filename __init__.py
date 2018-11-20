@@ -289,6 +289,26 @@ class Command:
                 self.use_visual()
                 return
 
+            if text=='^':
+                goto_first_nonspace_char(y0)
+                msg('go to 1st non-space char')
+                self.use_visual()
+                return
+
+            if text=='-':
+                if y0>0:
+                    goto_first_nonspace_char(y0-1)
+                    msg('go to 1st non-space char, at prev line')
+                self.use_visual()
+                return
+
+            if text=='+':
+                if y0<ed.get_line_count()-1:
+                    goto_first_nonspace_char(y0+1)
+                    msg('go to 1st non-space char, at next line')
+                self.use_visual()
+                return
+
 
     def on_insert(self, ed_self, text):
         if not self.active:
@@ -359,7 +379,7 @@ class Command:
             return False
 
 
-        if text in ('h', 'j', 'k', 'l', 'b', 'B', 'w', 'W', 'e', 'E'):
+        if text in ('h', 'j', 'k', 'l', 'b', 'B', 'w', 'W', 'e', 'E', '^', '-', '+'):
             self.handle('', text)
             return False
 
@@ -392,29 +412,6 @@ class Command:
             x0, y0, x1, y1 = ed.get_carets()[0]
             goto_first_nonspace_char(y0)
             msg('insertion mode, at 1st non-space char')
-            return False
-
-        if text=='^':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            goto_first_nonspace_char(y0)
-            msg('go to 1st non-space char')
-            self.use_visual()
-            return False
-
-        if text=='-':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            if y0>0:
-                goto_first_nonspace_char(y0-1)
-                msg('go to 1st non-space char, at prev line')
-            self.use_visual()
-            return False
-
-        if text=='+':
-            x0, y0, x1, y1 = ed.get_carets()[0]
-            if y0<ed.get_line_count()-1:
-                goto_first_nonspace_char(y0+1)
-                msg('go to 1st non-space char, at next line')
-            self.use_visual()
             return False
 
         if text=='x':
