@@ -321,6 +321,20 @@ class Command:
                 self.use_visual()
                 return
 
+            if text=='O':
+                ed.cmd(cc.cCommand_TextInsertEmptyAbove)
+                self.insert = True
+                self.update_caret()
+                msg('insert line above, insertion mode')
+                return
+
+            if text=='o':
+                ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+                self.insert = True
+                self.update_caret()
+                msg('insert line below, insertion mode')
+                return
+
 
 
     def on_insert(self, ed_self, text):
@@ -394,7 +408,7 @@ class Command:
 
         if text in ('h', 'j', 'k', 'l', 
                     'b', 'B', 'w', 'W', 'e', 'E', 
-                    'x', 'X', 
+                    'x', 'X', 'o', 'O',
                     '^', '-', '+',
                     ):
             self.handle('', text)
@@ -443,19 +457,6 @@ class Command:
             msg('replace mode for current line')
             return False
 
-        if text=='O':
-            ed.cmd(cc.cCommand_TextInsertEmptyAbove)
-            self.insert = True
-            self.update_caret()
-            msg('insert line above, insertion mode')
-            return False
-
-        if text=='o':
-            ed.cmd(cc.cCommand_TextInsertEmptyBelow)
-            self.insert = True
-            self.update_caret()
-            msg('insert line below, insertion mode')
-            return False
 
         if text=='D':
             ed.cmd(cc.cCommand_TextDeleteToLineEnd)
