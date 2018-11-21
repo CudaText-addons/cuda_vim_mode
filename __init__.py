@@ -410,7 +410,8 @@ class Command:
                 self.visual = False
                 self.update_caret()
 
-                ed.cmd(cc.cmd_CopyLine)
+                s = ed.get_text_line(y0)+'\n'
+                app_proc(PROC_SET_CLIP, s)
                 msg('copy/yank entire line')
                 return
 
