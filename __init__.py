@@ -107,10 +107,12 @@ class Command:
         if self.visual_lines:
             if y0<yy:
                 x0 = 0
-                xx = len(ed.get_text_line(yy))
+                xx = 0
             else:
                 xx = 0
-                x0 = len(ed.get_text_line(y0))
+                if x0>0:
+                    x0 = 0
+                    y0 += 1
 
         ed.set_caret(x0, y0, xx, yy)
 
@@ -644,7 +646,7 @@ class Command:
             s = 'visual mode'
             if self.visual_lines:
                 s += ', by lines'
-                ed.set_caret(0, y0, len(ed.get_text_line(y0)), y0)
+                ed.set_caret(0, y0, 0, y0+1)
             msg(s)
             return False
 
