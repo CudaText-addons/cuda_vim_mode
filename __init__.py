@@ -83,7 +83,14 @@ class Command:
             msg('plugin deactivated')
         self.update_caret()
 
-        if self.active and save_op:
+        if not self.active:
+            if ini_read(INI, 'vim_mode', 'on_start', ''):
+                res = msg_box('Turn off Vim Mode permanently (don\'t use after CudaText restart)?',
+                    MB_OKCANCEL+MB_ICONQUESTION)
+                if res==ID_OK:
+                    ini_write(INI, 'vim_mode', 'on_start', '')
+            
+        elif save_op:
             res = msg_box('Make Vim Mode persistent, ie active after CudaText restart?\n\n'+
                           'Yes: persistent, start in command mode\n'+
                           'No: persistent, start in insertion mode\n'+
