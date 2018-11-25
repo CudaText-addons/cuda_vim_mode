@@ -3,7 +3,7 @@ import cudatext_cmd as cc
 import cudatext_keys as ck
 from .text_func import *
 
-INI = 'cuda_vim_mode.ini'
+INI = 'plugins.ini' #without path - in settings dir
 ST_TAG = 21 #tag value must be >20
 
 def msg(s):
@@ -34,7 +34,7 @@ class Command:
 
 
     def on_start(self, ed_self):
-        op = ini_read(INI, 'op', 'on_start', '')
+        op = ini_read(INI, 'vim_mode', 'on_start', '')
         if op=='c':
             self.toggle_active(False, False)
         elif op=='i':
@@ -92,7 +92,7 @@ class Command:
             if res==ID_YES: op = 'c'
             if res==ID_NO: op = 'i'
             if res==ID_CANCEL: op = ''
-            ini_write(INI, 'op', 'on_start', op)
+            ini_write(INI, 'vim_mode', 'on_start', op)
 
 
     def on_open(self, ed_self):

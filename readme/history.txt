@@ -2,6 +2,7 @@
 2018.11.25
 - fix: commands Y/p must insert text at line start
 - fix: commands y/p in visual/fullline mode must paste at line start
+* change: ini-file changed to "plugins.ini", so delete old "cuda_vim_mode.ini"
 
 2018.11.21
 - fix: commands "Y", "V" must select lines with EOL
