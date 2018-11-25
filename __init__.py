@@ -30,6 +30,7 @@ class Command:
     find_fw = True
     saved_prefix = ''
     saved_text = ''
+    clip_full_line = False
 
 
     def on_start(self, ed_self):
@@ -405,6 +406,7 @@ class Command:
                 self.update_caret()
 
                 ed.cmd(cc.cCommand_ClipboardCopy)
+                self.clip_full_line = False
                 msg('copy/yank')
                 return
 
@@ -412,8 +414,9 @@ class Command:
                 self.visual = False
                 self.update_caret()
 
-                s = ed.get_text_line(y0)+'\n'
+                s = ed.get_text_line(y0)
                 app_proc(PROC_SET_CLIP, s)
+                self.clip_full_line = True
                 msg('copy/yank entire line')
                 return
 
@@ -421,8 +424,13 @@ class Command:
                 self.visual = False
                 self.update_caret()
 
-                ed.cmd(cc.cCommand_KeyRight)
+                if self.clip_full_line:
+                    ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+                    ed.set_caret(0, y0+1, -1, -1)
+                else:
+                    ed.cmd(cc.cCommand_KeyRight)
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
+                
                 msg('paste, after caret')
                 self.use_visual()
                 return
