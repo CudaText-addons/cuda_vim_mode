@@ -1,6 +1,7 @@
 
 2018.11.25
 - fix: commands Y/p must insert text at line start
+- fix: commands y/p in visual/fullline mode must paste at line start
 
 2018.11.21
 - fix: commands "Y", "V" must select lines with EOL

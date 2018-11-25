@@ -402,19 +402,19 @@ class Command:
                 return
 
             if text=='y':
+                self.clip_full_line = self.visual and self.visual_lines
                 self.visual = False
                 self.update_caret()
 
                 ed.cmd(cc.cCommand_ClipboardCopy)
-                self.clip_full_line = False
-                msg('copy/yank')
+                msg('copy/yank'+ (', full line(s)' if self.clip_full_line else ''))
                 return
 
             if text=='Y':
                 self.visual = False
                 self.update_caret()
 
-                s = ed.get_text_line(y0)
+                s = ed.get_text_line(y0)+'\n'
                 app_proc(PROC_SET_CLIP, s)
                 self.clip_full_line = True
                 msg('copy/yank entire line')
@@ -425,7 +425,9 @@ class Command:
                 self.update_caret()
 
                 if self.clip_full_line:
-                    ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+                    #ed.cmd(cc.cCommand_TextInsertEmptyBelow)
+                    if y0>=ed.get_line_count()-1:
+                        ed.set_text_line(-1, '')
                     ed.set_caret(0, y0+1, -1, -1)
                 else:
                     ed.cmd(cc.cCommand_KeyRight)
