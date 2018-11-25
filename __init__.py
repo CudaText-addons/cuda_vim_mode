@@ -356,6 +356,7 @@ class Command:
 
             if text=='d':
                 if ed.get_text_sel():
+                    self.clip_full_line = self.visual and self.visual_lines
                     self.visual = False
                     self.update_caret()
                     ed.cmd(cc.cCommand_ClipboardCut)
