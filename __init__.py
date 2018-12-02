@@ -213,7 +213,8 @@ class Command:
         if prefix=='f':
             if find_text_in_line(x0, y0, text,
                     self.prefix_f_fw,
-                    self.prefix_f_before):
+                    self.prefix_f_before,
+                    False):
                 msg('found: '+text)
             else:
                 msg('not found in line: '+text)
