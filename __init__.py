@@ -23,6 +23,7 @@ class Command:
     prefix_f = False
     prefix_f_fw = True
     prefix_f_before = False
+    prefix_df = False
     prefix_Z = False
     number = ''
     caret_normal = (2, -100, False)
@@ -148,7 +149,9 @@ class Command:
                 msg('command mode')
                 return False
             else:
+                self.prefix_c = False
                 self.prefix_d = False
+                self.prefix_df = False
                 self.prefix_g = False
                 self.prefix_f = False
                 self.prefix_Z = False
@@ -210,11 +213,12 @@ class Command:
             msg('replaced char to: '+text)
             return
 
-        if prefix=='f':
+        if prefix in ('f', 'df'):
             if find_text_in_line(x0, y0, text,
                     self.prefix_f_fw,
                     self.prefix_f_before,
-                    False):
+                    prefix=='df'
+                    ):
                 msg('found: '+text)
             else:
                 msg('not found in line: '+text)
@@ -528,6 +532,18 @@ class Command:
             self.handle('f', text)
             return False
 
+        if self.prefix_df:
+            self.handle('df', text)
+
+            if self.prefix_c:
+                self.insert = True
+                self.update_caret()
+
+            self.prefix_c = False
+            self.prefix_d = False
+            self.prefix_df = False
+            return False
+
         x0, y0, x1, y1 = ed.get_carets()[0]
         if text in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
             use_num = True
@@ -571,6 +587,14 @@ class Command:
 
 
         if self.prefix_c or self.prefix_d:
+        
+            if text in ('f', 'F', 't', 'T'):
+                self.prefix_df = True
+                self.prefix_f_fw = text in ('f', 't')
+                self.prefix_f_before = text in ('t', 'T')
+                msg('delete until what?')
+                return False
+                
             self.handle('d', text)
             if self.prefix_c:
                 self.insert = True

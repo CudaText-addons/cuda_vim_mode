@@ -122,7 +122,7 @@ def find_text_in_line(x0, y0, text, next, before, and_delete):
         if not and_delete:
             ed.set_caret(n, y0)
         else:
-            ed.delete(x0, y0, n, y0)
+            ed.delete(x0, y0, n+1, y0)
         return True
 
 
