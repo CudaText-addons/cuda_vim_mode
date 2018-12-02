@@ -105,6 +105,7 @@ def goto_first_nonspace_char(nline):
 
 
 def find_text_in_line(x0, y0, text, next, before, and_delete):
+
     sline = ed.get_text_line(y0)
     if not sline: return
 
@@ -119,10 +120,16 @@ def find_text_in_line(x0, y0, text, next, before, and_delete):
                 n -= 1
             else:
                 n += 1
+
         if not and_delete:
             ed.set_caret(n, y0)
         else:
-            ed.delete(x0, y0, n+1, y0)
+            if next:
+                ed.delete(x0, y0, n+1, y0)
+            else:
+                ed.set_caret(n, y0)
+                ed.delete(n, y0, x0, y0)
+
         return True
 
 
