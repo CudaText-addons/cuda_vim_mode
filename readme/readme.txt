@@ -53,7 +53,11 @@ d) Vim command mode supported keys:
   db - delete to word begin
   dw, de - delete to word end (currently commands work the same)
   dL - delete to text end
-  d/ - delete until text position (text is asked in dialog)
+  d/ - delete until position of text, which is asked in dialog
+  df - delete until position of char entered after
+  dt - delete until position of char entered after, minus one char
+  dF - backward version of 'df'
+  dT - backward version of 'dt'
 
   C - change to end of line (delete to end of line, go to insertion mode)
   c - change - like "d" commands (cd, cb, cw, ce...) but also goes to insertion mode 
@@ -88,5 +92,5 @@ d) Vim command mode supported keys:
     
 
 author: Alexey (CudaText)
-suggestions by @mangobait
+suggestions/testing: @mangobait, @oO0XX0Oo
 license: MIT

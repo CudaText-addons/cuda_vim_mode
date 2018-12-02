@@ -1,4 +1,7 @@
 
+2018.12.02
++ add: commands 'ctQ', 'cfQ', 'dtQ', 'dfQ' (delete until text)
+
 2018.11.25
 - fix: commands Y/p must insert text at line start
 - fix: commands y/p in visual/fullline mode must paste at line start
