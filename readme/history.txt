@@ -1,4 +1,7 @@
 
+2018.12.03
++ add: commands 'z.', 'zt', 'zb'
+
 2018.12.02
 + add: commands 'ctQ', 'cfQ', 'dtQ', 'dfQ' (delete until text)
 

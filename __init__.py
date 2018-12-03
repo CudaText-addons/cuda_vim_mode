@@ -2,6 +2,7 @@ from cudatext import *
 import cudatext_cmd as cc
 import cudatext_keys as ck
 from .text_func import *
+from .scrollto import *
 
 INI = 'plugins.ini' #without path - in settings dir
 ST_TAG = 21 #tag value must be >20
@@ -24,6 +25,7 @@ class Command:
     prefix_f_fw = True
     prefix_f_before = False
     prefix_df = False
+    prefix_z = False
     prefix_Z = False
     number = ''
     caret_normal = (2, -100, False)
@@ -90,7 +92,7 @@ class Command:
                     MB_OKCANCEL+MB_ICONQUESTION)
                 if res==ID_OK:
                     ini_write(INI, 'vim_mode', 'on_start', '')
-            
+
         elif save_op:
             res = msg_box('Make Vim Mode persistent, ie active after CudaText restart?\n\n'+
                           'Yes: persistent, start in command mode\n'+
@@ -154,6 +156,7 @@ class Command:
                 self.prefix_df = False
                 self.prefix_g = False
                 self.prefix_f = False
+                self.prefix_z = False
                 self.prefix_Z = False
                 msg('Esc')
                 return
@@ -227,6 +230,20 @@ class Command:
         if prefix=='g':
             ed.cmd(cc.cCommand_GotoTextBegin)
             msg('go to text begin')
+            return
+
+        if prefix=='z':
+            if text=='.':
+                do_scroll('cnt')
+                msg('scroll to center')
+            elif text=='t':
+                do_scroll('top')
+                msg('scroll to top')
+            elif text=='b':
+                do_scroll('btm')
+                msg('scroll to bottom')
+            else:
+                msg('unknown command')
             return
 
         if prefix=='d':
@@ -445,7 +462,7 @@ class Command:
                 else:
                     ed.cmd(cc.cCommand_KeyRight)
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
-                
+
                 msg('paste, after caret')
                 self.use_visual()
                 return
@@ -587,14 +604,14 @@ class Command:
 
 
         if self.prefix_c or self.prefix_d:
-        
+
             if text in ('f', 'F', 't', 'T'):
                 self.prefix_df = True
                 self.prefix_f_fw = text in ('f', 't')
                 self.prefix_f_before = text in ('t', 'T')
                 msg('delete until what?')
                 return False
-                
+
             self.handle('d', text)
             if self.prefix_c:
                 self.insert = True
@@ -603,6 +620,11 @@ class Command:
             self.prefix_d = False
             return False
 
+
+        if self.prefix_z:
+            self.handle('z', text)
+            self.prefix_z = False
+            return False
 
         if text in ('h', 'j', 'k', 'l',
                     'b', 'B', 'w', 'W', 'e', 'E',
@@ -671,6 +693,11 @@ class Command:
                 self.prefix_d = True
                 msg('delete?')
             self.use_visual()
+            return False
+
+        if text=='z':
+            self.prefix_z = True
+            msg('scroll to?')
             return False
 
         if text in ('f', 'F', 't', 'T'):

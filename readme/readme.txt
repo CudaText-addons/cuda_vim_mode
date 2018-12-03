@@ -90,6 +90,10 @@ d) Vim command mode supported keys:
   S - substitute line - delete line, go to insertion mode
   ZZ - save current file + exit
     
+  z. - center the screen on the caret
+  zt - scroll the screen so the caret is at the top
+  zb - scroll the screen so the caret is at the bottom
+
 
 author: Alexey (CudaText)
 suggestions/testing: @mangobait, @oO0XX0Oo
