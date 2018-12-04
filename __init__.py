@@ -547,6 +547,9 @@ class Command:
         if self.prefix_f:
             self.prefix_f = False
             self.handle('f', text)
+            
+            if self.visual:
+                self.use_visual()
             return False
 
         if self.prefix_df:
