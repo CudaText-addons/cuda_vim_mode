@@ -15,8 +15,11 @@ d) Vim command mode supported keys:
   h, j, k, l - move caret (4 arrows)
 
   w - go to next word (jumps not exactly like Vim, but like CudaText command "go to next word")
+  W - currently the same as 'w'
   b - go to previous word (same note)
+  B - currently the same as 'b'
   e - go to end of word (or next word)
+  E - currently the same as 'e'
 
   a - enter insertion mode, after moving caret right
   A - enter insertion mode, at line end
