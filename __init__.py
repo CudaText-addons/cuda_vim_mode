@@ -283,10 +283,13 @@ class Command:
 
         if prefix=='Z':
             if text=='Z':
-                msg('save+exit')
                 ed.cmd(cc.cmd_FileSave)
                 ed.cmd(cc.cmd_FileExit)
-
+                msg('quit with saving')
+            elif text=='Q':
+                ed.set_prop(PROP_MODIFIED, False)
+                ed.cmd(cc.cmd_FileExit)
+                msg('quit without saving')       
             return
 
         if prefix=='':
@@ -798,7 +801,7 @@ class Command:
 
         if text=='Z':
             self.prefix_Z = True
-            msg('exit?')
+            msg('quit?')
             return False
 
 
