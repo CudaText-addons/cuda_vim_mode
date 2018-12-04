@@ -88,11 +88,13 @@ d) Vim command mode supported keys:
 
   J - join current line with the next one
   S - substitute line - delete line, go to insertion mode
-  ZZ - save current file + exit
     
   z. - center the screen on the caret
   zt - scroll the screen so the caret is at the top
   zb - scroll the screen so the caret is at the bottom
+
+  ZZ - save current file, quit
+  ZQ - quit without saving current file
 
 
 author: Alexey (CudaText)

@@ -1,5 +1,6 @@
 
 2018.12.04
++ add: command 'ZQ'
 - fix: arrows Left/Right in visual mode
 + add: 'f'/'t'/'F'/'T' now work in visual mode too
 
