@@ -281,6 +281,14 @@ class Command:
                     msg('Esc')
             return
 
+        if prefix=='Z':
+            if text=='Z':
+                msg('save+exit')
+                ed.cmd(cc.cmd_FileSave)
+                ed.cmd(cc.cmd_FileExit)
+
+            return
+
         if prefix=='':
             if text=='h':
                 ed.cmd(cc.cCommand_KeyLeft)
@@ -547,9 +555,14 @@ class Command:
         if self.prefix_f:
             self.prefix_f = False
             self.handle('f', text)
-            
+
             if self.visual:
                 self.use_visual()
+            return False
+
+        if self.prefix_Z:
+            self.prefix_Z = False
+            self.handle('Z', text)
             return False
 
         if self.prefix_df:
@@ -784,13 +797,8 @@ class Command:
             return False
 
         if text=='Z':
-            if self.prefix_Z:
-                msg('save+exit')
-                ed.cmd(cc.cmd_FileSave)
-                ed.cmd(cc.cmd_FileExit)
-                return False
             self.prefix_Z = True
-            msg('save+exit?')
+            msg('exit?')
             return False
 
 
