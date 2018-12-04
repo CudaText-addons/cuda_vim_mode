@@ -181,9 +181,9 @@ class Command:
                 ] and state=='':
             if self.visual:
                 if key==ck.VK_LEFT:
-                    ed.cmd(cc.cCommand_KeyLeft)
+                    ed.cmd(cc.cCommand_KeyLeft_Sel)
                 elif key==ck.VK_RIGHT:
-                    ed.cmd(cc.cCommand_KeyRight)
+                    ed.cmd(cc.cCommand_KeyRight_Sel)
                 elif key==ck.VK_UP:
                     ed.cmd(cc.cCommand_KeyUp)
                 elif key==ck.VK_DOWN:
