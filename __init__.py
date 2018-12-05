@@ -443,12 +443,23 @@ class Command:
                 return
 
             if text=='y':
+                if y1<0:
+                    msg('text not selected')
+                    return
                 self.clip_full_line = self.visual and self.visual_lines
+
+                xx0, yy0, xx1, yy1 = x0, y0, x1, y1
+                if (yy0, xx0)>(yy1, xx1):
+                    xx0, yy0, xx1, yy1 = xx1, yy1, xx0, yy0
+                    if self.visual:
+                        xx1 += 1 # like Vim
+                s = ed.get_text_substr(xx0, yy0, xx1, yy1)
+                app_proc(PROC_SET_CLIP, s)
+
+                msg('copy/yank'+ (', full line(s)' if self.clip_full_line else ''))
+
                 self.visual = False
                 self.update_caret()
-
-                ed.cmd(cc.cCommand_ClipboardCopy)
-                msg('copy/yank'+ (', full line(s)' if self.clip_full_line else ''))
                 return
 
             if text=='Y':
