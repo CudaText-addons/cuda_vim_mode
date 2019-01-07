@@ -12,5 +12,11 @@ events=on_key,on_insert,on_start,on_open
 
 [item2]
 section=commands
-caption=Vim Mode
+caption=Vim Mode\Toggle
 method=toggle_active
+
+[item10]
+section=commands
+caption=Vim Mode\Remap Esc key
+method=config_esc
+menu=o

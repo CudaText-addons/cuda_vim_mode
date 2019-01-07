@@ -1,3 +1,4 @@
+import string
 from cudatext import *
 import cudatext_cmd as cc
 import cudatext_keys as ck
@@ -24,6 +25,7 @@ class Command:
     prefix_f = False
     prefix_f_fw = True
     prefix_f_before = False
+    prefix_j = False
     prefix_df = False
     prefix_z = False
     prefix_Z = False
@@ -36,7 +38,12 @@ class Command:
     clip_full_line = False
 
 
+    def __init__(self):
+
+        self.remap_esc = ini_read(INI, 'vim_mode', 'remap_esc', '')
+
     def on_start(self, ed_self):
+
         op = ini_read(INI, 'vim_mode', 'on_start', '')
         if op=='c':
             self.toggle_active(False, False)
@@ -156,6 +163,7 @@ class Command:
                 self.prefix_df = False
                 self.prefix_g = False
                 self.prefix_f = False
+                self.prefix_j = False
                 self.prefix_z = False
                 self.prefix_Z = False
                 msg('Esc')
@@ -289,7 +297,7 @@ class Command:
             elif text=='Q':
                 ed.set_prop(PROP_MODIFIED, False)
                 ed.cmd(cc.cmd_FileExit)
-                msg('quit without saving')       
+                msg('quit without saving')
             return
 
         if prefix=='':
@@ -559,6 +567,11 @@ class Command:
             return
 
         if self.insert:
+            if self.prefix_j and text==self.remap_esc:
+                ed_self.cmd(cc.cCommand_KeyBackspace)
+                self.on_key(ed_self, ck.VK_ESCAPE, '')
+                return False
+            self.prefix_j = self.remap_esc and text=='j'
             return
 
         if self.replace_char:
@@ -819,3 +832,15 @@ class Command:
         #block all text in command mode
         msg('unknown command')
         return False
+
+
+    def config_esc(self):
+
+        res = dlg_input('Remap Esc to j<smth>. E.g. for command "jk" enter "k". Empty - no remap.', self.remap_esc)
+        if res is None:
+            return
+        if res and res not in string.ascii_letters:
+            msg_box('Input "%s" is not valid, please enter single letter'%res, MB_OK+MB_ICONERROR)
+            return
+        self.remap_esc = res
+        ini_write(INI, 'vim_mode', 'remap_esc', res)

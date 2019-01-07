@@ -1,4 +1,7 @@
 
+2018.01.07
++ add: can remap Esc in insertion mode to "jj" or "jk". Use menu item "Options / Settings-plugins / Vim Mode".
+
 2018.12.04
 + add: command 'ZQ'
 - fix: arrows Left/Right in visual mode
