@@ -571,7 +571,7 @@ class Command:
                 ed_self.cmd(cc.cCommand_KeyBackspace)
                 self.on_key(ed_self, ck.VK_ESCAPE, '')
                 return False
-            self.prefix_j = self.remap_esc and text=='j'
+            self.prefix_j = self.remap_esc and text=='j' and ed_self.get_prop(PROP_INSERT)
             return
 
         if self.replace_char:
