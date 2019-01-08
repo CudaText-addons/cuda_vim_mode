@@ -177,7 +177,7 @@ class Command:
             return
 
         if key==ck.VK_BACKSPACE:
-            goto_left_right(False)
+            goto_l()
             msg('move left')
             return False
 
@@ -302,7 +302,7 @@ class Command:
 
         if prefix=='':
             if text=='h':
-                goto_left_right(False)
+                goto_l()
                 msg('left')
                 self.use_visual()
                 return
@@ -320,7 +320,7 @@ class Command:
                 return
 
             if text=='l':
-                goto_left_right(True)
+                goto_r()
                 msg('right')
                 self.use_visual()
                 return
@@ -413,7 +413,7 @@ class Command:
                 return
 
             if text==' ':
-                goto_left_right(True)
+                goto_r()
                 msg('move right')
                 self.use_visual()
                 return
@@ -490,7 +490,7 @@ class Command:
                         ed.set_text_line(-1, '')
                     ed.set_caret(0, y0+1, -1, -1)
                 else:
-                    goto_left_right(True)
+                    goto_r()
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
 
                 msg('paste, after caret')
@@ -685,7 +685,7 @@ class Command:
         if text=='a':
             s = ed.get_text_line(y0)
             if x0<len(s):
-                goto_left_right(True)
+                goto_r()
             self.insert = True
             self.update_caret()
             msg('insertion mode, after current char')
