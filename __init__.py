@@ -177,7 +177,7 @@ class Command:
             return
 
         if key==ck.VK_BACKSPACE:
-            ed.cmd(cc.cCommand_KeyLeft)
+            goto_left_right(False)
             msg('move left')
             return False
 
@@ -302,8 +302,7 @@ class Command:
 
         if prefix=='':
             if text=='h':
-                x1, y1, x2, y2 = ed.get_carets()[0]
-                ed.set_caret(max(0, x1-1), y1, -1, -1)
+                goto_left_right(False)
                 msg('left')
                 self.use_visual()
                 return
@@ -321,9 +320,7 @@ class Command:
                 return
 
             if text=='l':
-                x1, y1, x2, y2 = ed.get_carets()[0]
-                x_limit = len(ed.get_text_line(y1)) if not ed.get_prop(PROP_CARET_VIRTUAL) else 0xFFFFFF
-                ed.set_caret(min(x_limit, x1+1), y1, -1, -1)
+                goto_left_right(True)
                 msg('right')
                 self.use_visual()
                 return
@@ -416,7 +413,7 @@ class Command:
                 return
 
             if text==' ':
-                ed.cmd(cc.cCommand_KeyRight)
+                goto_left_right(True)
                 msg('move right')
                 self.use_visual()
                 return
@@ -493,7 +490,7 @@ class Command:
                         ed.set_text_line(-1, '')
                     ed.set_caret(0, y0+1, -1, -1)
                 else:
-                    ed.cmd(cc.cCommand_KeyRight)
+                    goto_left_right(True)
                 ed.cmd(cc.cCommand_ClipboardPaste_KeepCaret)
 
                 msg('paste, after caret')
@@ -688,7 +685,7 @@ class Command:
         if text=='a':
             s = ed.get_text_line(y0)
             if x0<len(s):
-                ed.cmd(cc.cCommand_KeyRight)
+                goto_left_right(True)
             self.insert = True
             self.update_caret()
             msg('insertion mode, after current char')

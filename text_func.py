@@ -170,3 +170,12 @@ def join_line_with_next():
         0, y0+2,
         s1 + sep + s2 + '\n')
 
+
+def goto_left_right(right):
+
+    x1, y1, x2, y2 = ed.get_carets()[0]
+    if right:
+        x_limit = len(ed.get_text_line(y1)) if not ed.get_prop(PROP_CARET_VIRTUAL) else 0xFFFFFF
+        ed.set_caret(min(x_limit, x1+1), y1, -1, -1)
+    else:
+        ed.set_caret(max(0, x1-1), y1, -1, -1)
