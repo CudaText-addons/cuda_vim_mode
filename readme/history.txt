@@ -1,4 +1,7 @@
 
+2018.01.08
+- fix: Visual mode had broken commands h/l (caret left/right)
+
 2018.01.07
 + add: can remap Esc in insertion mode to "jj" or "jk". Use menu item "Options / Settings-plugins / Vim Mode".
 

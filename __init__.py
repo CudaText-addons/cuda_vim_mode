@@ -302,7 +302,8 @@ class Command:
 
         if prefix=='':
             if text=='h':
-                ed.cmd(cc.cCommand_KeyLeft)
+                x1, y1, x2, y2 = ed.get_carets()[0]
+                ed.set_caret(max(0, x1-1), y1, -1, -1)
                 msg('left')
                 self.use_visual()
                 return
@@ -320,7 +321,9 @@ class Command:
                 return
 
             if text=='l':
-                ed.cmd(cc.cCommand_KeyRight)
+                x1, y1, x2, y2 = ed.get_carets()[0]
+                x_limit = len(ed.get_text_line(y1)) if not ed.get_prop(PROP_CARET_VIRTUAL) else 0xFFFFFF
+                ed.set_caret(min(x_limit, x1+1), y1, -1, -1)
                 msg('right')
                 self.use_visual()
                 return
