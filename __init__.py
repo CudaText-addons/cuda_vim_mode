@@ -568,6 +568,7 @@ class Command:
 
         if self.insert:
             if self.prefix_j and text==self.remap_esc:
+                self.prefix_j = False
                 ed_self.cmd(cc.cCommand_KeyBackspace)
                 self.on_key(ed_self, ck.VK_ESCAPE, '')
                 return False
