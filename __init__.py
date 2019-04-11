@@ -70,8 +70,17 @@ class Command:
             value = (-100, -100, True)
         ed.set_prop(PROP_CARET_VIEW, value)
 
+        self.update_statusbar(False)
+
+
+    def update_statusbar(self, delete_vim_cell):
+
         info, color = self.get_status_info()
+
         if self.active:
+            if delete_vim_cell:
+                statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
+
             statusbar_proc('main', STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
             statusbar_proc('main', STATUSBAR_SET_CELL_AUTOSIZE, value=True, tag=ST_TAG)
             statusbar_proc('main', STATUSBAR_SET_CELL_TEXT, value='--'+info+'--', tag=ST_TAG)
@@ -845,3 +854,10 @@ class Command:
             return
         self.remap_esc = res
         ini_write(INI, 'vim_mode', 'remap_esc', res)
+
+
+    def on_state(self, ed_self, state):
+
+        # must refresh statusbar after Options Editor has changed options
+        if state==APPSTATE_CONFIG_REREAD:
+            self.update_statusbar(True)
