@@ -250,9 +250,12 @@ class Command:
             return
 
         if prefix=='z':
-            if text=='.':
-                do_scroll('cnt')
+            if text=='z':
+                do_scroll('center')
                 msg('scroll to center')
+            elif text=='.':
+                do_scroll('center_nblank')
+                msg('scroll to center, first non-blank')
             elif text=='t':
                 do_scroll('top')
                 msg('scroll to top')

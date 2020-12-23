@@ -1,4 +1,7 @@
 
+2020.12.23
++ add: changed "zz" and "z." to be like in https://vimhelp.org/index.txt.html#z (thanks @acicovic)
+
 2019.04.11
 - fix: after calling plugin Options Editor to change opts, Vim statusbar was broken
 

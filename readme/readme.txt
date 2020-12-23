@@ -92,7 +92,8 @@ d) Vim command mode supported keys:
   J - join current line with the next one
   S - substitute line - delete line, go to insertion mode
     
-  z. - center the screen on the caret
+  zz - center the caret's line on screen
+  z. - center the caret's line on screen, caret on first non-blank char
   zt - scroll the screen so the caret is at the top
   zb - scroll the screen so the caret is at the bottom
 
