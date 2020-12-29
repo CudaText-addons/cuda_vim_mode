@@ -152,6 +152,12 @@ class Command:
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
+        # Ctrl+[ --> Esc
+        if key==219 and state=='c':
+            ed_self.cmd(cc.cCommand_Cancel)
+            msg('Esc')
+            return False
+
         if key==ck.VK_ESCAPE:
             if self.insert:
                 self.insert = False

@@ -1,4 +1,7 @@
 
+2020.12.30
++ add: map Ctrl+[ to action of Esc key, "cancel carets" (thanks @cser)
+
 2020.12.23
 + add: changed "zz" and "z." to be like in https://vimhelp.org/index.txt.html#z (thanks @acicovic)
 
