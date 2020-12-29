@@ -152,11 +152,30 @@ class Command:
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
-        # Ctrl+[ --> Esc
-        if key==219 and state=='c':
-            ed_self.cmd(cc.cCommand_Cancel)
-            msg('Esc')
-            return False
+        if state=='c':
+            # Ctrl+H --> Backspace
+            if key==ord('H'):
+                ed_self.cmd(cc.cCommand_KeyBackspace)
+                msg('BackSpace key')
+                return False
+
+            # Ctrl+I --> Tab char
+            if key==ord('I'):
+                ed_self.cmd(cc.cCommand_KeyTab)
+                msg('Tab key')
+                return False
+
+            # Ctrl+J or Ctrl+M --> Enter
+            if key in [ord('J'), ord('M')]:
+                ed_self.cmd(cc.cCommand_KeyEnter)
+                msg('Enter key')
+                return False
+
+            # Ctrl+[ --> Esc
+            if key==219:
+                ed_self.cmd(cc.cCommand_Cancel)
+                msg('Esc key')
+                return False
 
         if key==ck.VK_ESCAPE:
             if self.insert:
