@@ -100,7 +100,11 @@ d) Vim command mode supported keys:
   ZZ - save current file, quit
   ZQ - quit without saving current file
 
+  Ctrl+[  - the same as Esc key (removes multi-carets and returns from insertion mode to command mode)
+  Ctrl+I  - the same as Tab key
+  Ctrl+M  - the same as Enter key
+
 
 author: Alexey (CudaText)
-suggestions/testing: @mangobait, @oO0XX0Oo
+suggestions/testing: @mangobait, @oO0XX0Oo, @acicovic
 license: MIT
