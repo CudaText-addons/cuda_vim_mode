@@ -103,6 +103,7 @@ d) Vim command mode supported keys:
   Ctrl+[  - the same as Esc key (removes multi-carets and returns from insertion mode to command mode)
   Ctrl+I  - the same as Tab key
   Ctrl+M  - the same as Enter key
+  Ctrl+H  - the same as Backspace key
 
 
 author: Alexey (CudaText)

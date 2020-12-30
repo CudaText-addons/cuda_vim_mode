@@ -1,6 +1,6 @@
 
 2020.12.30
-+ add: map Ctrl+[ to Esc key, "cancel carets" (thanks @cser)
++ add: map Ctrl+[ to Esc key (thanks @cser)
 + add: map Ctrl+I to Tab key
 + add: map Ctrl+H to Backspace key
 + add: map Ctrl+J and Ctrl+M to Enter key
