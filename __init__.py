@@ -149,6 +149,34 @@ class Command:
         #msg(s)
 
 
+    def do_esc(self):
+
+        if self.insert:
+            self.insert = False
+            self.update_caret()
+            ed.set_prop(PROP_INSERT, True)
+            msg('command mode')
+            return False
+        elif self.visual:
+            self.visual = False
+            self.visual_lines = False
+            self.visual_start = None
+            self.update_caret()
+            msg('command mode')
+            return False
+        else:
+            self.prefix_c = False
+            self.prefix_d = False
+            self.prefix_df = False
+            self.prefix_g = False
+            self.prefix_f = False
+            self.prefix_j = False
+            self.prefix_z = False
+            self.prefix_Z = False
+            msg('Esc')
+            return
+
+
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
@@ -174,34 +202,11 @@ class Command:
             # Ctrl+[ --> Esc
             if key==219:
                 ed_self.cmd(cc.cCommand_Cancel)
-                msg('Esc key')
+                self.do_esc()
                 return False
 
         if key==ck.VK_ESCAPE:
-            if self.insert:
-                self.insert = False
-                self.update_caret()
-                ed.set_prop(PROP_INSERT, True)
-                msg('command mode')
-                return False
-            elif self.visual:
-                self.visual = False
-                self.visual_lines = False
-                self.visual_start = None
-                self.update_caret()
-                msg('command mode')
-                return False
-            else:
-                self.prefix_c = False
-                self.prefix_d = False
-                self.prefix_df = False
-                self.prefix_g = False
-                self.prefix_f = False
-                self.prefix_j = False
-                self.prefix_z = False
-                self.prefix_Z = False
-                msg('Esc')
-                return
+            self.do_esc()
 
         if self.insert:
             if ed.get_prop(PROP_INSERT):
