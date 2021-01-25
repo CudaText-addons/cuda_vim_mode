@@ -106,6 +106,6 @@ d) Vim command mode supported keys:
   Ctrl+H  - the same as Backspace key
 
 
-author: Alexey (CudaText)
+author: Alexey Torgashin (CudaText)
 suggestions/testing: @mangobait, @oO0XX0Oo, @acicovic
 license: MIT
