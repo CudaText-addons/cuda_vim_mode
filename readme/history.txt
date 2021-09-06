@@ -1,4 +1,8 @@
 
+2021.09.07
++ add: map Ctrl+F to PageDown command (from @nochiel)
++ add: map Ctrl+B to PageUp command 
+
 2020.12.30
 + add: map Ctrl+[ to Esc key (thanks @cser)
 + add: map Ctrl+I to Tab key

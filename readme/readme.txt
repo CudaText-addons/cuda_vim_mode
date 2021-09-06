@@ -104,8 +104,10 @@ d) Vim command mode supported keys:
   Ctrl+I  - the same as Tab key
   Ctrl+M  - the same as Enter key
   Ctrl+H  - the same as Backspace key
+  Ctrl+F  - the same as PageDown key
+  Ctrl+B  - the same as PageUp key
 
 
 author: Alexey Torgashin (CudaText)
-suggestions/testing: @mangobait, @oO0XX0Oo, @acicovic
+suggestions/testing: @mangobait, @oO0XX0Oo, @acicovic, @nochiel
 license: MIT
