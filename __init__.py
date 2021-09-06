@@ -205,6 +205,16 @@ class Command:
                 self.do_esc()
                 return False
 
+            if key == ord('F'):
+                ed_self.cmd(cc.cCommand_KeyPageDown)
+                msg('f key')
+                return False
+
+            if key == ord('B'):
+                ed_self.cmd(cc.cCommand_KeyPageUp)
+                msg('b key')
+                return False
+
         if key==ck.VK_ESCAPE:
             self.do_esc()
 
