@@ -14,6 +14,7 @@ def msg(s):
 
 class Command:
     active = False
+    active_was = False
     insert = False
     visual = False
     visual_lines = False
@@ -94,6 +95,7 @@ class Command:
 
     def toggle_active(self, insert=False, save_op=True):
         self.insert = insert
+        self.active_was = True
         self.active = not self.active
         if self.active:
             self.caret_normal = ed.get_prop(PROP_CARET_VIEW)
@@ -122,6 +124,8 @@ class Command:
 
 
     def on_open(self, ed_self):
+        if not self.active_was:
+            return
         self.update_caret()
 
 
@@ -178,7 +182,8 @@ class Command:
 
 
     def on_key(self, ed_self, key, state):
-        if not self.active: return
+        if not self.active:
+            return
 
         if state=='c':
             # Ctrl+H --> Backspace
@@ -900,6 +905,9 @@ class Command:
 
 
     def on_state(self, ed_self, state):
+
+        if not self.active_was:
+            return
 
         # must refresh statusbar after Options Editor has changed options
         if state==APPSTATE_CONFIG_REREAD:
