@@ -5,8 +5,8 @@ import cudatext_keys as ck
 from .text_func import *
 from .scrollto import *
 
-INI = 'plugins.ini' #without path - in settings dir
-ST_TAG = 21 #tag value must be >20
+INI = 'plugins.ini' # without path - in 'settings' dir
+ST_TAG = app_proc(PROC_GET_UNIQUE_TAG, '') # tag value must be >20
 
 def msg(s):
     msg_status('[Vim] '+s)
@@ -77,20 +77,21 @@ class Command:
     def update_statusbar(self, delete_vim_cell):
 
         info, color = self.get_status_info()
+        h_bar = 'main'
 
         if self.active:
             if delete_vim_cell:
-                statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
+                statusbar_proc(h_bar, STATUSBAR_DELETE_CELL, tag=ST_TAG)
 
-            statusbar_proc('main', STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_AUTOSIZE, value=True, tag=ST_TAG)
-            statusbar_proc('main', STATUSBAR_SET_CELL_TEXT, value='--'+info+'--', tag=ST_TAG)
+            statusbar_proc(h_bar, STATUSBAR_ADD_CELL, index=-1, tag=ST_TAG)
+            statusbar_proc(h_bar, STATUSBAR_SET_CELL_AUTOSIZE, value=True, tag=ST_TAG)
+            statusbar_proc(h_bar, STATUSBAR_SET_CELL_TEXT, value='--'+info+'--', tag=ST_TAG)
         else:
-            statusbar_proc('main', STATUSBAR_DELETE_CELL, tag=ST_TAG)
+            statusbar_proc(h_bar, STATUSBAR_DELETE_CELL, tag=ST_TAG)
 
-        for i in range(statusbar_proc('main', STATUSBAR_GET_COUNT)):
-            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_BACK, value=color if self.active else COLOR_NONE, index=i)
-            statusbar_proc('main', STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF if self.active else COLOR_NONE, index=i)
+        for i in range(statusbar_proc(h_bar, STATUSBAR_GET_COUNT)):
+            statusbar_proc(h_bar, STATUSBAR_SET_CELL_COLOR_BACK, value=color if self.active else COLOR_NONE, index=i)
+            statusbar_proc(h_bar, STATUSBAR_SET_CELL_COLOR_FONT, value=0xFFFFFF if self.active else COLOR_NONE, index=i)
 
 
     def toggle_active(self, insert=False, save_op=True):
