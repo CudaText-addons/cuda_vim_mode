@@ -17,6 +17,12 @@ method=toggle_active
 
 [item10]
 section=commands
+caption=Vim Mode\Config
+method=config
+menu=o
+
+[item12]
+section=commands
 caption=Vim Mode\Remap Esc key
 method=config_esc
 menu=o

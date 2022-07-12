@@ -1,5 +1,6 @@
 
-2022.07.11
+2022.07.12
++ add: added commmand "Options / Settings-plugins / Vim Mode / Config" and 3 color options
 - fix: plugin was resetting caret-shape on opening files, even if it wasn't active
 
 2021.09.07

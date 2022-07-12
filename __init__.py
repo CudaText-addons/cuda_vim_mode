@@ -1,7 +1,9 @@
+import os
 import string
 from cudatext import *
 import cudatext_cmd as cc
 import cudatext_keys as ck
+import cudax_lib
 from .text_func import *
 from .scrollto import *
 
@@ -39,9 +41,24 @@ class Command:
     clip_full_line = False
 
 
-    def __init__(self):
+    def read_ops(self):
 
-        self.remap_esc = ini_read(INI, 'vim_mode', 'remap_esc', '')
+        sec = 'vim_mode'
+        self.remap_esc = ini_read(INI, sec, 'remap_esc', '')
+        self.color_insert = cudax_lib.html_color_to_int(ini_read(INI, sec, 'color_insert', '#b00000'))
+        self.color_visual1 = cudax_lib.html_color_to_int(ini_read(INI, sec, 'color_visual1', '#000080'))
+        self.color_visual2 = cudax_lib.html_color_to_int(ini_read(INI, sec, 'color_visual2', '#800080'))
+        self.color_command = cudax_lib.html_color_to_int(ini_read(INI, sec, 'color_command', '#008080'))
+
+    def config(self):
+
+        self.read_ops()
+        sec = 'vim_mode'
+        ini_write(INI, sec, 'color_insert', cudax_lib.int_to_html_color(self.color_insert))
+        ini_write(INI, sec, 'color_visual1', cudax_lib.int_to_html_color(self.color_visual1))
+        ini_write(INI, sec, 'color_visual2', cudax_lib.int_to_html_color(self.color_visual2))
+        ini_write(INI, sec, 'color_command', cudax_lib.int_to_html_color(self.color_command))
+        file_open(app_path(APP_DIR_SETTINGS)+os.sep+INI)
 
     def on_start(self, ed_self):
 
@@ -55,14 +72,15 @@ class Command:
     def get_status_info(self):
 
         if self.insert:
-            return ('Insert', 0x0000B0)
+            return ('Insert', self.color_insert)
         elif self.visual:
-            return ('Visual', 0x800000 if self.visual_lines else 0x800080 )
+            return ('Visual', self.color_visual1 if self.visual_lines else self.color_visual2 )
         else:
-            return ('Command', 0x808000)
+            return ('Command', self.color_command)
 
 
     def update_caret(self):
+
         if self.insert or not self.active:
             value = self.caret_normal
         elif self.visual:
@@ -95,6 +113,8 @@ class Command:
 
 
     def toggle_active(self, insert=False, save_op=True):
+
+        self.read_ops()
         self.insert = insert
         self.active_was = True
         self.active = not self.active
@@ -895,6 +915,7 @@ class Command:
 
     def config_esc(self):
 
+        self.read_ops()
         res = dlg_input('Remap Esc to j<smth>. E.g. for command "jk" enter "k". Empty - no remap.', self.remap_esc)
         if res is None:
             return
