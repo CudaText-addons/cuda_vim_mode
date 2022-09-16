@@ -133,14 +133,19 @@ class Command:
                     ini_write(INI, 'vim_mode', 'on_start', '')
 
         elif save_op:
-            res = msg_box('Make Vim Mode persistent, ie active after CudaText restart?\n\n'+
-                          'Yes: persistent, start in command mode\n'+
-                          'No: persistent, start in insertion mode\n'+
-                          'Cancel: not persistent',
-                MB_YESNOCANCEL+MB_ICONQUESTION)
-            if res==ID_YES: op = 'c'
-            if res==ID_NO: op = 'i'
-            if res==ID_CANCEL: op = ''
+            res = msg_box_ex('CudaText',
+                             'Make Vim Mode persistent, ie active after CudaText restart?',
+                             ['Persistent, command mode',
+                              'Persistent, insertion mode',
+                              'Not persistent'
+                              ], 
+                             MB_ICONQUESTION)
+            if res==0:
+                op = 'c'
+            elif res==1:
+                op = 'i'
+            else:
+                op = ''
             ini_write(INI, 'vim_mode', 'on_start', op)
 
 
