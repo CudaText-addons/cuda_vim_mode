@@ -9,6 +9,7 @@ from .scrollto import *
 
 INI = 'plugins.ini' # without path - in 'settings' dir
 ST_TAG = app_proc(PROC_GET_UNIQUE_TAG, '') # tag value must be >20
+h_bar = app_proc(PROC_GET_MAIN_STATUSBAR, '')
 
 def msg(s):
     msg_status('[Vim] '+s)
@@ -95,7 +96,6 @@ class Command:
     def update_statusbar(self, delete_vim_cell):
 
         info, color = self.get_status_info()
-        h_bar = 'main'
 
         if self.active:
             if delete_vim_cell:
