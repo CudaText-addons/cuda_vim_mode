@@ -65,9 +65,12 @@ class Command:
 
         op = ini_read(INI, 'vim_mode', 'on_start', '')
         if op=='c':
-            self.toggle_active(False, False)
+            callback = lambda *args,**vargs: self.toggle_active(False, False)
+            timer_proc(TIMER_START_ONE, callback, 250)
+            
         elif op=='i':
-            self.toggle_active(True, False)
+            callback = lambda *args,**vargs: self.toggle_active(True, False)
+            timer_proc(TIMER_START_ONE, callback, 250)
 
 
     def get_status_info(self):
@@ -88,12 +91,20 @@ class Command:
             value = (-100, -50, False)
         else:
             value = (-100, -100, True)
-        ed.set_prop(PROP_CARET_VIEW, value)
+        
+        # set carets for all opened tabs
+        for h_ed in ed_handles():
+            editor = Editor(h_ed)
+            editor.set_prop(PROP_CARET_VIEW, value)
 
         self.update_statusbar(False)
 
 
     def update_statusbar(self, delete_vim_cell):
+        # wait until statusbar is fully loaded (avoids flicker)
+        index_info = statusbar_proc(h_bar, STATUSBAR_FIND_CELL, value=20) # 20 = last cell (CELL_TAG_INFO)
+        if index_info is None:
+            return
 
         info, color = self.get_status_info()
 
@@ -937,5 +948,5 @@ class Command:
             return
 
         # must refresh statusbar after Options Editor has changed options
-        if state==APPSTATE_CONFIG_REREAD:
-            self.update_statusbar(True)
+        if state == APPSTATE_CONFIG_REREAD:
+            self.update_statusbar(delete_vim_cell=True)
