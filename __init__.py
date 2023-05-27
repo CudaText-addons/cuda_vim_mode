@@ -61,7 +61,7 @@ class Command:
         ini_write(INI, sec, 'color_command', cudax_lib.int_to_html_color(self.color_command))
         file_open(app_path(APP_DIR_SETTINGS)+os.sep+INI)
 
-    def on_start(self, ed_self):
+    def on_start2(self, ed_self):
 
         op = ini_read(INI, 'vim_mode', 'on_start', '')
         if op=='c':

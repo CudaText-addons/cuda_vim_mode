@@ -4,11 +4,11 @@ desc=Allows to use Vim key bindings
 type=cudatext-plugin
 subdir=cuda_vim_mode
 homepage=https://github.com/CudaText-addons/cuda_vim_mode
-api=1.0.261
+api=1.0.435
 
 [item1]
 section=events
-events=on_key,on_insert,on_start,on_open,on_state
+events=on_key,on_insert,on_start2,on_open,on_state
 
 [item2]
 section=commands
